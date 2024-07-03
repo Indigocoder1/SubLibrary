@@ -33,7 +33,7 @@ internal class ModdedSubHudManager : MonoBehaviour
     private void Start()
     {
         canvasGroup.alpha = 0;
-        uiElements = GetComponentsInChildren<IUIElement>().ToList();
+        uiElements = GetComponentsInChildren<IUIElement>(true).ToList();
     }
 
     private void Update()

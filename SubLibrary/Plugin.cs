@@ -5,10 +5,14 @@ using System.Reflection;
 
 namespace SubLibrary;
 
-[BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+[BepInPlugin(GUID, pluginName, versionString)]
 [BepInDependency("com.snmodding.nautilus")]
 public class Plugin : BaseUnityPlugin
 {
+    private const string GUID = "com.indigocoder.sublibrary";
+    private const string pluginName = "Sub Library";
+    private const string versionString = "1.0.0";
+
     public new static ManualLogSource Logger { get; private set; }
 
     private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
