@@ -17,5 +17,7 @@ public class VFXMaterialApplier : MonoBehaviour, ICyclopsReferencer
         vfxConstructing.alphaDetailTexture = cyclopsConstructing.alphaDetailTexture;
         vfxConstructing.transparentShaders = cyclopsConstructing.transparentShaders;
         vfxConstructing.surfaceSplashFX = cyclopsConstructing.surfaceSplashFX;
+
+        damageManager.fxPrefabs = cyclops.GetComponentInChildren<CyclopsExternalDamageManager>(true).fxPrefabs;
     }
 }

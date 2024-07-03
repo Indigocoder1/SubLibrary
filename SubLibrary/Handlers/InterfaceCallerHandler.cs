@@ -7,7 +7,6 @@ namespace SubLibrary.Handlers;
 
 public static class InterfaceCallerHandler
 {
-
     public static IEnumerator InvokeCyclopsReferencers(GameObject prefabRoot)
     {
         yield return CyclopsReferenceManager.EnsureCyclopsReference();
