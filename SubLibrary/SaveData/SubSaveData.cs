@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubLibrary.Monobehaviors.Saving;
+namespace SubLibrary.SaveData;
 
 [Serializable]
 internal struct SubSaveData

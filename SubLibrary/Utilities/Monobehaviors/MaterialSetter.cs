@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SubLibrary.Monobehaviors.Utilities;
+namespace SubLibrary.Utilities.Monobehaviors;
 
 public class MaterialSetter : MonoBehaviour
 {
@@ -25,7 +25,7 @@ public class MaterialSetter : MonoBehaviour
 
     private void OnValidate()
     {
-        if(!renderer) renderer = GetComponent<Renderer>();
+        if (!renderer) renderer = GetComponent<Renderer>();
     }
 
     public void AssignMaterials()
@@ -111,9 +111,9 @@ public class MaterialSetter : MonoBehaviour
         interiorWindowGlassMaterial.SetFloat("_Shininess", 6f);
         interiorWindowGlassMaterial.SetFloat("_Fresnel", 0.88f);
 
-        yield return CyclopsReferenceManager.EnsureCyclopsReference();
+        yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
-        var holoMat = CyclopsReferenceManager.CyclopsReference.transform.Find("HelmHUD/HelmHUDVisuals/Canvas_LeftHUD/EngineOnUI/EngineOff_Button")
+        var holoMat = CyclopsReferenceHandler.CyclopsReference.transform.Find("HelmHUD/HelmHUDVisuals/Canvas_LeftHUD/EngineOnUI/EngineOff_Button")
             .GetComponent<Image>().material;
 
         holographicUIMaterial = new Material(holoMat);

@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.UI;
+namespace SubLibrary.UI.UIManagers;
 
 internal class PowerUIManager : MonoBehaviour, IUIElement
 {

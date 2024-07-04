@@ -3,13 +3,12 @@ using UnityEngine;
 
 namespace SubLibrary.PrefabRetrievers;
 
-public static class CyclopsReferenceManager
+public static class CyclopsReferenceHandler
 {
     public static GameObject CyclopsReference { get; private set; }
     private static bool loaded;
 
     /// <summary>
-    /// Waits for <see cref="LightmappedPrefabs.main"/> to be initialized, then caches the Cyclops prefab.
     /// </summary>
     internal static IEnumerator EnsureCyclopsReference()
     {

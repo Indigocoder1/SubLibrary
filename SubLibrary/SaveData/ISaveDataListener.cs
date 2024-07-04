@@ -1,4 +1,4 @@
-﻿using SubLibrary.Monobehaviors.Saving;
+﻿using SubLibrary.SaveData;
 
 namespace SubLibrary.Interfaces;
 

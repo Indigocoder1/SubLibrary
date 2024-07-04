@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SubLibrary.Monobehaviors.Saving;
+namespace SubLibrary.SaveData;
 
 [Serializable]
 public abstract class BaseSubDataClass
 {
-    
+
 }
 
 public class ModuleDataClass : BaseSubDataClass

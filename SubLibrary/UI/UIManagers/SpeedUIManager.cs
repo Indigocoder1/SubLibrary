@@ -1,7 +1,7 @@
 ﻿using SubLibrary.Interfaces;
 using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.UI;
+namespace SubLibrary.UI.UIManagers;
 
 internal class SpeedUIManager : MonoBehaviour, IUIElement
 {
@@ -17,7 +17,7 @@ internal class SpeedUIManager : MonoBehaviour, IUIElement
 
     public void UpdateUI()
     {
-        if(motorMode.engineOn != engineOnLastUpdate)
+        if (motorMode.engineOn != engineOnLastUpdate)
         {
             animator.SetBool("Active", motorMode.engineOn);
         }

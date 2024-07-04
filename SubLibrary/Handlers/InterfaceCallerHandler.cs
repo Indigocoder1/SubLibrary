@@ -1,5 +1,4 @@
-﻿using SubLibrary.Interfaces;
-using SubLibrary.PrefabRetrievers;
+﻿using SubLibrary.RuntimeSpawners;
 using System.Collections;
 using UnityEngine;
 
@@ -9,11 +8,11 @@ public static class InterfaceCallerHandler
 {
     public static IEnumerator InvokeCyclopsReferencers(GameObject prefabRoot)
     {
-        yield return CyclopsReferenceManager.EnsureCyclopsReference();
+        yield return CyclopsReferenceHandler.EnsureCyclopsReference();
 
         foreach (var referencer in prefabRoot.GetComponentsInChildren<ICyclopsReferencer>())
         {
-            referencer.OnCyclopsReferenceFinished(CyclopsReferenceManager.CyclopsReference);
+            referencer.OnCyclopsReferenceFinished(CyclopsReferenceHandler.CyclopsReference);
         }
     }
 }

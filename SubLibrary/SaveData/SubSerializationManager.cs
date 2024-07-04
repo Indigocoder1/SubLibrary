@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.Saving;
+namespace SubLibrary.SaveData;
 
 internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 {
