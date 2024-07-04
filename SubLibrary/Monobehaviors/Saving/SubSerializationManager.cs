@@ -9,7 +9,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 {
     [SerializeField] private PrefabIdentifier prefabIdentifier;
 
-    public Dictionary<string, SubSaveData> subSaves = new();
+    public static Dictionary<string, SubSaveData> SubSaves = new();
 
     private void OnValidate()
     {
@@ -18,7 +18,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
     public void OnProtoDeserialize(ProtobufSerializer serializer)
     {
-        BaseModdedSubSaveData saveData = DeserializeSubSaveData(subSaves[prefabIdentifier.Id]);
+        BaseModdedSubSaveData saveData = DeserializeSubSaveData(SubSaves[prefabIdentifier.Id]);
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
@@ -28,7 +28,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
     public void OnProtoSerialize(ProtobufSerializer serializer)
     {
-        BaseModdedSubSaveData saveData = DeserializeSubSaveData(subSaves[prefabIdentifier.Id]);
+        BaseModdedSubSaveData saveData = DeserializeSubSaveData(SubSaves[prefabIdentifier.Id]);
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {

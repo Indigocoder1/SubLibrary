@@ -3,8 +3,14 @@
 namespace SubLibrary.Monobehaviors.Saving;
 
 [Serializable]
-internal class SubSaveData
+internal struct SubSaveData
 {
     internal Type endTypeToDeserializeTo;
     internal string jsonSerializedData;
+
+    public SubSaveData(Type endTypeToDeserializeTo, string jsonSerializedData)
+    {
+        this.endTypeToDeserializeTo = endTypeToDeserializeTo;
+        this.jsonSerializedData = jsonSerializedData;
+    }
 }
