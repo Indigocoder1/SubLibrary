@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace SubLibrary.PrefabRetrievers;
+namespace SubLibrary.Handlers;
 
 public static class CyclopsReferenceHandler
 {
@@ -13,7 +13,7 @@ public static class CyclopsReferenceHandler
     /// </summary>
     internal static IEnumerator EnsureCyclopsReference()
     {
-        if(CyclopsReference)
+        if (CyclopsReference)
         {
             yield break;
         }

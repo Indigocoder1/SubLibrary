@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.Prefabs;
+namespace SubLibrary.RuntimeSpawners;
 
 internal class DamagePointSlot : MonoBehaviour
 {

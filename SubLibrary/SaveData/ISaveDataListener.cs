@@ -1,6 +1,4 @@
-﻿using SubLibrary.SaveData;
-
-namespace SubLibrary.Interfaces;
+﻿namespace SubLibrary.SaveData;
 
 public interface ISaveDataListener
 {

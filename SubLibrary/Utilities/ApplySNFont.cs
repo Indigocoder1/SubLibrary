@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.Utilities;
+namespace SubLibrary.Utilities;
 
 public class ApplySNFont : MonoBehaviour
 {

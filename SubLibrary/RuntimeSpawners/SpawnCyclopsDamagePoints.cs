@@ -1,8 +1,7 @@
-﻿using SubLibrary.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.Prefabs;
+namespace SubLibrary.RuntimeSpawners;
 
 internal class SpawnCyclopsDamagePoints : MonoBehaviour, ICyclopsReferencer
 {

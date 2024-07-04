@@ -1,7 +1,6 @@
-﻿using SubLibrary.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.UI;
+namespace SubLibrary.UI.UIManagers;
 
 internal class EngineUIManager : MonoBehaviour, IUIElement
 {

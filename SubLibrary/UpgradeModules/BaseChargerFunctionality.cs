@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubLibrary.UpgradeModules.BaseClasses;
+namespace SubLibrary.UpgradeModules;
 
 public abstract class BaseChargerFunctionality : MonoBehaviour
 {
@@ -16,15 +16,15 @@ public abstract class BaseChargerFunctionality : MonoBehaviour
     {
         powerRelay = GetComponentInParent<PowerRelay>();
 
-        if(updateCooldown > 0)
+        if (updateCooldown > 0)
         {
-            InvokeRepeating(nameof(UpdateCharge) , 1, updateCooldown);
+            InvokeRepeating(nameof(UpdateCharge), 1, updateCooldown);
         }
     }
 
     protected virtual void Update()
     {
-        if(updateCooldown <= 0)
+        if (updateCooldown <= 0)
         {
             UpdateCharge();
         }

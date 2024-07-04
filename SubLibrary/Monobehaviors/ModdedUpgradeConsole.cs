@@ -1,7 +1,4 @@
-﻿using Mono.Cecil;
-using SubLibrary.Interfaces;
-using SubLibrary.SaveData;
-using System;
+﻿using SubLibrary.SaveData;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,13 +23,13 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
 
     private void OnValidate()
     {
-        if(!serializationManager && GetComponentInParent<SubSerializationManager>() != null) serializationManager = GetComponentInParent<SubSerializationManager>();
+        if (!serializationManager && GetComponentInParent<SubSerializationManager>() != null) serializationManager = GetComponentInParent<SubSerializationManager>();
     }
 
     public override void Awake()
     {
         base.Awake();
-        if(modules == null)
+        if (modules == null)
         {
             InitializeModules();
         }
@@ -90,14 +87,14 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
-        if(!(saveData as ModuleDataClass).modules.TryGetValue(gameObject.name, out var value)) return;
+        if (!(saveData as ModuleDataClass).modules.TryGetValue(gameObject.name, out var value)) return;
 
         StartCoroutine(SpawnSavedModules(value));
     }
 
     private IEnumerator SpawnSavedModules(Dictionary<string, TechType> cachedModules)
     {
-        if(modules == null)
+        if (modules == null)
         {
             InitializeModules();
         }

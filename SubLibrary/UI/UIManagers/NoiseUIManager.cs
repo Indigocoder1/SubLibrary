@@ -1,8 +1,7 @@
-﻿using SubLibrary.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace SubLibrary.Monobehaviors.UI;
+namespace SubLibrary.UI.UIManagers;
 
 internal class NoiseUIManager : MonoBehaviour, IUIElement
 {

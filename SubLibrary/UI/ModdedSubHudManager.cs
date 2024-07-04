@@ -1,10 +1,9 @@
-﻿using SubLibrary.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SubLibrary.Monobehaviors.UI;
+namespace SubLibrary.UI;
 
 internal class ModdedSubHudManager : MonoBehaviour
 {
@@ -40,7 +39,7 @@ internal class ModdedSubHudManager : MonoBehaviour
     {
         if (!behaviourLOD.IsFull()) return;
 
-        if(subLiveMixin.IsAlive())
+        if (subLiveMixin.IsAlive())
         {
             UpdateHUD();
             creatureAttackSprite.gameObject.SetActive(creatureAttackWarning);
@@ -52,7 +51,7 @@ internal class ModdedSubHudManager : MonoBehaviour
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, Time.deltaTime * 4f);
         canvasGroup.interactable = hudActive;
 
-        if(creatureAttackWarning)
+        if (creatureAttackWarning)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.creatureAttackNotification);
             subRoot.subWarning = true; //NOTE: COME BACK TO LATER WHEN/IF IMPLEMENTING FIRE SYSTEM
@@ -65,7 +64,7 @@ internal class ModdedSubHudManager : MonoBehaviour
         warningAlpha = Mathf.PingPong(Time.time * 5f, 1f);
         creatureAttackSprite.color = new Color(1f, 1f, 1f, warningAlpha);
 
-        if(subRoot.subWarning != oldWarningState)
+        if (subRoot.subWarning != oldWarningState)
         {
             subRoot.BroadcastMessage("NewAlarmState");
         }

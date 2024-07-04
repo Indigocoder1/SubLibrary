@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using SubLibrary.Utilities;
 using System.Reflection;
 
 namespace SubLibrary;
@@ -21,7 +22,7 @@ public class Plugin : BaseUnityPlugin
     {
         Logger = base.Logger;
 
-        UWE.CoroutineHost.StartCoroutine(Monobehaviors.Utilities.MaterialSetter.LoadMaterialsAsync());
+        UWE.CoroutineHost.StartCoroutine(MaterialSetter.LoadMaterialsAsync());
 
         // register harmony patches, if there are any
         Harmony.CreateAndPatchAll(Assembly, $"{PluginInfo.PLUGIN_GUID}");

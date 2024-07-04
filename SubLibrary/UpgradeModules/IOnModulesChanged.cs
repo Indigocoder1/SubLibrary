@@ -1,4 +1,4 @@
-﻿namespace SubLibrary.Interfaces;
+﻿namespace SubLibrary.UpgradeModules;
 
 public interface IOnModulesChanged
 {

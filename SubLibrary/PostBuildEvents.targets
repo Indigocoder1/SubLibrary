@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir &quot;$(ModFolder)\$(TargetName)&quot;" />
+	<Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ModFolder)\$(TargetName)&quot;" />
+</Target>
+
+</Project>

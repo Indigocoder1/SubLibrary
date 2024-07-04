@@ -1,10 +1,10 @@
 ﻿using Nautilus.Utility;
-using SubLibrary.PrefabRetrievers;
+using SubLibrary.Handlers;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SubLibrary.Utilities.Monobehaviors;
+namespace SubLibrary.Utilities;
 
 public class MaterialSetter : MonoBehaviour
 {

@@ -1,8 +1,7 @@
-﻿using SubLibrary.Interfaces;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.UI;
+namespace SubLibrary.UI.UIManagers;
 
 internal class DepthUIManager : MonoBehaviour, IUIElement
 {

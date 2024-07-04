@@ -1,7 +1,6 @@
-﻿using SubLibrary.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SubLibrary.Monobehaviors.Prefabs;
+namespace SubLibrary.RuntimeSpawners;
 
 internal class SpawnSteeringWheel : MonoBehaviour, ICyclopsReferencer
 {

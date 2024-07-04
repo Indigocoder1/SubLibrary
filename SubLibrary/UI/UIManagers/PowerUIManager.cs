@@ -1,5 +1,4 @@
-﻿using SubLibrary.Interfaces;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace SubLibrary.UI.UIManagers;

@@ -1,7 +1,7 @@
 ﻿using Nautilus.Handlers;
 using SubLibrary.Attributes;
-using SubLibrary.Interfaces;
 using SubLibrary.Monobehaviors;
+using SubLibrary.UpgradeModules;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

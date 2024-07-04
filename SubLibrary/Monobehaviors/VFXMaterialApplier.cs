@@ -1,4 +1,4 @@
-﻿using SubLibrary.Interfaces;
+﻿using SubLibrary.RuntimeSpawners;
 using UnityEngine;
 
 namespace SubLibrary.Monobehaviors;

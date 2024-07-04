@@ -1,4 +1,4 @@
-﻿namespace SubLibrary.Interfaces;
+﻿namespace SubLibrary.UI;
 
 public interface IUIElement
 {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubLibrary.UpgradeModules.BaseClasses;
+namespace SubLibrary.UpgradeModules;
 
 public abstract class BaseChargerModule<T> : MonoBehaviour where T : BaseChargerFunctionality
 {
