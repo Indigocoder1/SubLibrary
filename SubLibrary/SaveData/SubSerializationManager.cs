@@ -41,7 +41,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
     {
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
-            saveListener.OnBeforeDataSaved();
+            saveListener.OnBeforeDataSaved(ref saveData);
         }
 
         UpdateDictionarySaveData();

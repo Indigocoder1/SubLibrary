@@ -3,5 +3,5 @@
 public interface ISaveDataListener
 {
     public void OnSaveDataLoaded(BaseSubDataClass saveData);
-    public void OnBeforeDataSaved();
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData);
 }

@@ -2,6 +2,10 @@
 
 namespace SubLibrary.UpgradeModules;
 
+/// <summary>
+/// Handles the charging functionality of a charging module, such as the thermal reactor module.
+/// Used in tandem with <see cref="BaseChargerModule{T}"/> to customize module behavior.
+/// </summary>
 public abstract class BaseChargerFunctionality : MonoBehaviour
 {
     public int modulesInstalled;

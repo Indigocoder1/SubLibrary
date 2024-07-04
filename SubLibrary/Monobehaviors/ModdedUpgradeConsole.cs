@@ -112,9 +112,8 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
         }
     }
 
-    public void OnBeforeDataSaved()
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
-        var saveData = serializationManager.saveData;
         var newModules = new Dictionary<string, TechType>();
 
         foreach (var item in modules.equipment)
