@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SubLibrary.Interfaces;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,18 +8,29 @@ namespace SubLibrary.Monobehaviors.Saving;
 
 internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 {
-    [SerializeField] private PrefabIdentifier prefabIdentifier;
-
     public static Dictionary<string, SubSaveData> SubSaves = new();
+
+    [HideInInspector] public BaseSubDataClass saveData;
+
+    [SerializeField] private PrefabIdentifier prefabIdentifier;
+    [SerializeField] private Type saveDataClassType;
 
     private void OnValidate()
     {
         if (!this.prefabIdentifier && TryGetComponent(out PrefabIdentifier prefabIdentifier)) this.prefabIdentifier = prefabIdentifier;
     }
 
+    private void Awake()
+    {
+        saveData = new ModuleDataClass();
+    }
+
     public void OnProtoDeserialize(ProtobufSerializer serializer)
     {
-        BaseModdedSubSaveData saveData = DeserializeSubSaveData(SubSaves[prefabIdentifier.Id]);
+        var serializedSave = SubSaves[prefabIdentifier.Id];
+
+        var saveData = DeserializeSubSaveData(serializedSave);
+        this.saveData = saveData;
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
@@ -28,16 +40,31 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
     public void OnProtoSerialize(ProtobufSerializer serializer)
     {
-        BaseModdedSubSaveData saveData = DeserializeSubSaveData(SubSaves[prefabIdentifier.Id]);
-
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
-            saveListener.OnBeforeDataSaved(saveData);
+            saveListener.OnBeforeDataSaved();
         }
+
+        UpdateDictionarySaveData();
     }
 
-    internal BaseModdedSubSaveData DeserializeSubSaveData(SubSaveData saveData)
+    internal ModuleDataClass DeserializeSubSaveData(SubSaveData saveData)
     {
-        return (BaseModdedSubSaveData)JsonConvert.DeserializeObject(saveData.jsonSerializedData, saveData.endTypeToDeserializeTo);
+        return JsonConvert.DeserializeObject(saveData.jsonSerializedData, saveData.endTypeToDeserializeTo) as ModuleDataClass;
+    }
+
+    private void UpdateDictionarySaveData()
+    {
+        string serializedData = JsonConvert.SerializeObject(saveData);
+        SubSaveData subSaveData = new(saveDataClassType, serializedData);
+
+        if (!SubSaves.ContainsKey(prefabIdentifier.Id))
+        {
+            SubSaves.Add(prefabIdentifier.Id, subSaveData);
+        }
+        else
+        {
+            SubSaves[prefabIdentifier.Id] = subSaveData;
+        }
     }
 }

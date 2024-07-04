@@ -4,6 +4,6 @@ namespace SubLibrary.Interfaces;
 
 public interface ISaveDataListener
 {
-    public void OnSaveDataLoaded(BaseModdedSubSaveData saveData);
-    public void OnBeforeDataSaved(BaseModdedSubSaveData saveData);
+    public void OnSaveDataLoaded(BaseSubDataClass saveData);
+    public void OnBeforeDataSaved();
 }
