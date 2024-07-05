@@ -13,14 +13,14 @@ internal class uGUI_EquipmentPatches
     {
         foreach (var data in ModuleUIHandler.EquipmentDatas)
         {
-            uGUI_EquipmentSlot slot = CloneSlot(__instance, $"{data.baseModuleToCopy}1", $"{data.baseModuleName}1");
+            uGUI_EquipmentSlot slot = CloneSlot(__instance, $"SeamothModule1", $"{data.baseModuleName}1");
             Image backgroundImage = slot.transform.Find(data.baseModuleName.Replace("Module", "")).GetComponent<Image>();
 
             data.onModifyBackgroundImage(backgroundImage);
 
             for (var i = 2; i <= data.numberOfModules; i++)
             {
-                CloneSlot(__instance, $"{data.baseModuleToCopy}{i}", $"{data.baseModuleName}{i}");
+                CloneSlot(__instance, $"SeamothModule{i}", $"{data.baseModuleName}{i}");
             }
         }
     }

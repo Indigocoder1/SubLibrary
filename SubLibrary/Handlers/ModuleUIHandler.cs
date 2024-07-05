@@ -25,21 +25,15 @@ public static class ModuleUIHandler
         public string baseModuleName;
         public int numberOfModules;
         public Action<Image> onModifyBackgroundImage;
-        public string baseModuleToCopy;
 
-        /// <summary>
-        /// Creates a new EquipmentData
-        /// </summary>
-        /// <param name="baseModuleName">The base name for your equipment slot. It will have each module index appended to the end. I.e. "SubModule" -> "SubModule1"</param>
+        /// <param name="baseModuleName">The base name for your equipment slot. It will have each module index appended to the end. I.e. "SubModule" → "SubModule1"</param>
         /// <param name="numberOfModules">How many module slots to make</param>
         /// <param name="onModifyBackgroundImage">Callback to modify the background image of the upgrade modules UI</param>
-        /// <param name="baseModuleToCopy">The name of the slot to copy. It will have each module index appended to the end.</param>
-        public EquipmentData(string baseModuleName, int numberOfModules, Action<Image> onModifyBackgroundImage, string baseModuleToCopy = "SeamothModule")
+        public EquipmentData(string baseModuleName, int numberOfModules, Action<Image> onModifyBackgroundImage)
         {
             this.baseModuleName = baseModuleName;
             this.numberOfModules = numberOfModules;
             this.onModifyBackgroundImage = onModifyBackgroundImage;
-            this.baseModuleToCopy = baseModuleToCopy;
         }
     }
 }
