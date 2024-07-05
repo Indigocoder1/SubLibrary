@@ -12,7 +12,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
     [HideInInspector] public BaseSubDataClass saveData;
 
     [SerializeField] private PrefabIdentifier prefabIdentifier;
-    [SerializeField] private Type saveDataClassType;
+    [SerializeField, Tooltip("The name of your save data class that inherits from ModuleDataClass. CASE SENSITIVE!")] private string saveDataClassTypeName;
 
     private void OnValidate()
     {
@@ -55,7 +55,17 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
     private void UpdateDictionarySaveData()
     {
         string serializedData = JsonConvert.SerializeObject(saveData);
-        SubSaveData subSaveData = new(saveDataClassType, serializedData);
+        Type dataClassType = typeof(object);
+        try
+        {
+            dataClassType = Type.GetType(saveDataClassTypeName, true);
+        }
+        catch (Exception ex)
+        {
+            Plugin.Logger.LogError($"Error finding type for data class with name \"{saveDataClassTypeName}\"! Error: {ex.Message}");
+        }
+        
+        SubSaveData subSaveData = new(dataClassType, serializedData);
 
         if (!SubSaves.ContainsKey(prefabIdentifier.Id))
         {
