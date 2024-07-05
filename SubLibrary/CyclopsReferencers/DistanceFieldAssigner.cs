@@ -1,5 +1,4 @@
 ﻿using SubLibrary.Monobehaviors;
-using System;
 using UnityEngine;
 
 namespace SubLibrary.CyclopsReferencers;
@@ -13,7 +12,7 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
     private void OnValidate()
     {
         if (waterClipProxy) waterClipProxy.enabled = false;
-        if(sdfCutout) sdfCutout.enabled = false;
+        if (sdfCutout) sdfCutout.enabled = false;
     }
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)
@@ -50,7 +49,7 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
 
             waterClipProxy.distanceFieldSize = waterClipProxy.distanceFieldMax - waterClipProxy.distanceFieldMin;
             waterClipProxy.distanceFieldTexture = distanceField.texture;
-            var extents = waterClipProxy.distanceFieldSize * .5f + borderSizeScaled;
+            var extents = (waterClipProxy.distanceFieldSize * .5f) + borderSizeScaled;
             var center = (waterClipProxy.distanceFieldMin + waterClipProxy.distanceFieldMax) * .5f;
 
             waterClipProxy.CreateBoxMesh(center, extents);
@@ -58,7 +57,7 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
         else
         {
             Plugin.Logger.LogWarning($"No distance field found on {this}! Using a box instead");
-            var extents = Vector3.one * .5f + borderSizeScaled;
+            var extents = (Vector3.one * .5f) + borderSizeScaled;
             var center = Vector3.zero;
 
             waterClipProxy.CreateBoxMesh(center, extents);

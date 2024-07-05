@@ -14,7 +14,7 @@ internal class uGUI_CameraCyclopsPatches
 
         __instance.textTitle.text = string.Empty;
 
-        if(__instance.cameraIndex >= 0 && __instance.cameraIndex < nameAssigner.cameraNames.Length)
+        if (__instance.cameraIndex >= 0 && __instance.cameraIndex < nameAssigner.cameraNames.Length)
         {
             __instance.textTitle.text = Language.main.Get(nameAssigner.cameraNames[__instance.cameraIndex]);
         }

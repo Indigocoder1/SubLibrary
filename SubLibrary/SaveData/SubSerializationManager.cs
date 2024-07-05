@@ -64,7 +64,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
         {
             Plugin.Logger.LogError($"Error finding type for data class with name \"{saveDataClassTypeName}\"! Error: {ex.Message}");
         }
-        
+
         SubSaveData subSaveData = new(dataClassType, serializedData);
 
         if (!SubSaves.ContainsKey(prefabIdentifier.Id))

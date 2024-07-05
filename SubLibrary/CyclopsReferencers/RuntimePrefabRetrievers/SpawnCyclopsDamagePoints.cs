@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SubLibrary.CyclopsReferencers;
+namespace SubLibrary.CyclopsReferencers.RuntimePrefabRetrievers;
 
 internal class SpawnCyclopsDamagePoints : MonoBehaviour, ICyclopsReferencer
 {

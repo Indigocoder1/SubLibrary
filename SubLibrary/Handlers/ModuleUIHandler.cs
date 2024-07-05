@@ -6,7 +6,7 @@ namespace SubLibrary.Handlers;
 
 public static class ModuleUIHandler
 {
-    internal static List<EquipmentData> EquipmentDatas;
+    internal static List<EquipmentData> EquipmentDatas = new();
 
     /// <summary>
     /// Registers an <see cref="EquipmentData"/> to be added to <see cref="uGUI_Equipment"/>

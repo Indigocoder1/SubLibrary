@@ -14,7 +14,7 @@ internal class uGUI_EquipmentPatches
         foreach (var data in ModuleUIHandler.EquipmentDatas)
         {
             uGUI_EquipmentSlot slot = CloneSlot(__instance, $"SeamothModule1", $"{data.baseModuleName}1");
-            Image backgroundImage = slot.transform.Find(data.baseModuleName.Replace("Module", "")).GetComponent<Image>();
+            Image backgroundImage = slot.transform.Find("Seamoth").GetComponent<Image>();
 
             data.onModifyBackgroundImage(backgroundImage);
 
