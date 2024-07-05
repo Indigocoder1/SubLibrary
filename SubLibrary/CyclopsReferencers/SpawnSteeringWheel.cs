@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubLibrary.RuntimeSpawners;
+namespace SubLibrary.CyclopsReferencers;
 
 internal class SpawnSteeringWheel : MonoBehaviour, ICyclopsReferencer
 {

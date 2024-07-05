@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SubLibrary.RuntimeSpawners;
+namespace SubLibrary.CyclopsReferencers;
 
 public interface ICyclopsReferencer
 {
