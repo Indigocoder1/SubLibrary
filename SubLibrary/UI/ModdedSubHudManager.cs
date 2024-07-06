@@ -5,20 +5,21 @@ using UnityEngine.UI;
 
 namespace SubLibrary.UI;
 
-internal class ModdedSubHudManager : MonoBehaviour
+internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
 {
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private LiveMixin subLiveMixin;
     [SerializeField] private BehaviourLOD behaviourLOD;
     [SerializeField, Tooltip("Can be null if you don't have a horn")] private GameObject hornObject;
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private Image creatureAttackSprite;
     [SerializeField] private FMOD_CustomEmitter creatureDamagesSFX;
+    [SerializeField] private CyclopsNoiseManager noiseManager;
 
     private bool hudActive;
     private bool creatureAttackWarning;
+    private bool fireWarning;
+    private bool hullDamageWarning;
     private bool oldWarningState;
-    private float warningAlpha;
 
     private List<IUIElement> uiElements;
 
@@ -42,27 +43,44 @@ internal class ModdedSubHudManager : MonoBehaviour
         if (subLiveMixin.IsAlive())
         {
             UpdateHUD();
-            creatureAttackSprite.gameObject.SetActive(creatureAttackWarning);
         }
 
+        hullDamageWarning = subLiveMixin.GetHealthFraction() < 0.8f;
         if (Player.main.currentSub != subRoot || subRoot.subDestroyed) return;
 
         float targetAlpha = hudActive ? 1 : 0;
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, Time.deltaTime * 4f);
         canvasGroup.interactable = hudActive;
 
-        if (creatureAttackWarning)
+        if(creatureAttackWarning && fireWarning)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.creatureAttackNotification);
-            subRoot.subWarning = true; //NOTE: COME BACK TO LATER WHEN/IF IMPLEMENTING FIRE SYSTEM
+        }
+        else if (creatureAttackWarning)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.creatureAttackNotification);
+        }
+        else if(fireWarning)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.fireNotification);
+        }
+        else if(noiseManager.GetNoisePercent() > 0.9f && !IsInvoking(nameof(PlayCavitationWarningAfterSeconds)))
+        {
+            Invoke(nameof(PlayCavitationWarningAfterSeconds), 2f);
+        }
+        else if(hullDamageWarning)
+        {
+            subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.hullDamageNotification);
+        }
+
+        if(fireWarning || creatureAttackWarning)
+        {
+            subRoot.subWarning = true;
         }
         else
         {
             subRoot.subWarning = false;
         }
-
-        warningAlpha = Mathf.PingPong(Time.time * 5f, 1f);
-        creatureAttackSprite.color = new Color(1f, 1f, 1f, warningAlpha);
 
         if (subRoot.subWarning != oldWarningState)
         {
@@ -70,6 +88,14 @@ internal class ModdedSubHudManager : MonoBehaviour
         }
 
         oldWarningState = subRoot.subWarning;
+    }
+    
+    public bool HasFireWarning() => fireWarning;
+    public bool HasCreatureAttack() => creatureAttackWarning;
+
+    private void PlayCavitationWarningAfterSeconds()
+    {
+        subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.cavitatingNotification);
     }
 
     private void UpdateHUD()
@@ -88,7 +114,26 @@ internal class ModdedSubHudManager : MonoBehaviour
         }
     }
 
-    public void OnTakeCreatureDamage()
+    public void OnTakeDamage(DamageInfo damageInfo)
+    {
+        if (damageInfo.type == DamageType.Normal || damageInfo.type == DamageType.Electrical)
+        {
+            OnTakeCreatureDamage();
+        }
+        else if (damageInfo.type == DamageType.Collide)
+        {
+            OnTakeCollisionDamage(damageInfo.damage);
+        }
+    }
+
+    private void OnTakeFireDamage()
+    {
+        CancelInvoke(nameof(ClearFireWarning));
+        Invoke(nameof(ClearFireWarning), 10f);
+        fireWarning = true;
+    }
+
+    private void OnTakeCreatureDamage()
     {
         CancelInvoke(nameof(ClearCreatureWarning));
         Invoke(nameof(ClearCreatureWarning), 10f);
@@ -97,9 +142,21 @@ internal class ModdedSubHudManager : MonoBehaviour
         MainCameraControl.main.ShakeCamera(1.5f);
     }
 
+    private void OnTakeCollisionDamage(float value)
+    {
+        value *= 1.5f;
+        value = Mathf.Clamp(value / 100f, 0.5f, 1.5f);
+        MainCameraControl.main.ShakeCamera(value, -1f, MainCameraControl.ShakeMode.Linear, 1f);
+    }
+
     private void ClearCreatureWarning()
     {
         creatureAttackWarning = false;
+    }
+
+    private void ClearFireWarning()
+    {
+        fireWarning = false;
     }
 
     private void StartPiloting()
