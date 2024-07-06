@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SubLibrary.UI;
 
@@ -52,7 +51,7 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, Time.deltaTime * 4f);
         canvasGroup.interactable = hudActive;
 
-        if(creatureAttackWarning && fireWarning)
+        if (creatureAttackWarning && fireWarning)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.creatureAttackNotification);
         }
@@ -60,20 +59,20 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.creatureAttackNotification);
         }
-        else if(fireWarning)
+        else if (fireWarning)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.fireNotification);
         }
-        else if(noiseManager.GetNoisePercent() > 0.9f && !IsInvoking(nameof(PlayCavitationWarningAfterSeconds)))
+        else if (noiseManager.GetNoisePercent() > 0.9f && !IsInvoking(nameof(PlayCavitationWarningDelayed)))
         {
-            Invoke(nameof(PlayCavitationWarningAfterSeconds), 2f);
+            Invoke(nameof(PlayCavitationWarningDelayed), 2f);
         }
-        else if(hullDamageWarning)
+        else if (hullDamageWarning)
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.hullDamageNotification);
         }
 
-        if(fireWarning || creatureAttackWarning)
+        if (fireWarning || creatureAttackWarning)
         {
             subRoot.subWarning = true;
         }
@@ -84,16 +83,16 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
 
         if (subRoot.subWarning != oldWarningState)
         {
-            subRoot.BroadcastMessage("NewAlarmState");
+            subRoot.BroadcastMessage("NewAlarmState", SendMessageOptions.DontRequireReceiver);
         }
 
         oldWarningState = subRoot.subWarning;
     }
-    
+
     public bool HasFireWarning() => fireWarning;
     public bool HasCreatureAttack() => creatureAttackWarning;
 
-    private void PlayCavitationWarningAfterSeconds()
+    private void PlayCavitationWarningDelayed()
     {
         subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.cavitatingNotification);
     }

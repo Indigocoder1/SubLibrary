@@ -1,5 +1,4 @@
-﻿using Oculus.Platform.Models;
-using ProtoBuf;
+﻿using ProtoBuf;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,23 +72,23 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         Color color = smokeImpostorColor;
         color.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
         smokeImposterRenderer.material.SetColor(ShaderPropertyID._Color, color);
-        if(Player.main.currentSub == null)
+        if (Player.main.currentSub == null)
         {
             smokeImposterRenderer.enabled = true;
-            if(smokeController)
+            if (smokeController)
             {
                 smokeController.intensity = 0f;
             }
             return;
         }
-        if(Player.main.currentSub == subRoot)
+        if (Player.main.currentSub == subRoot)
         {
             smokeImposterRenderer.enabled = true;
             return;
         }
-        if(smokeController)
+        if (smokeController)
         {
-            if(externalCams.GetActive())
+            if (externalCams.GetActive())
             {
                 smokeController.intensity = 0;
                 smokeImposterRenderer.enabled = true;
@@ -107,7 +106,7 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         int fireCount = RecalcFireValues();
         foreach (var room in subRooms)
         {
-            if(fireCount == 0 || fireSuppressionActive)
+            if (fireCount == 0 || fireSuppressionActive)
             {
                 float fadeSpeed = fireSuppressionActive ? 45f : 15f;
                 room.smokeValue = Mathf.Lerp(room.smokeValue, 0f, Time.deltaTime * fadeSpeed);
@@ -115,7 +114,7 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
             else
             {
                 RecursiveIterateSmoke(new List<SubRoom>(), room, 0, room.fireValue);
-                if(Player.main.currentSub == subRoot && room.smokeValue > 0.5f)
+                if (Player.main.currentSub == subRoot && room.smokeValue > 0.5f)
                 {
                     Player.main.GetComponent<LiveMixin>().TakeDamage(0.2f, transform.position, DamageType.Smoke);
                 }
@@ -160,29 +159,29 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     {
         if (!LOD.IsFull()) return;
 
-        if(cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && subControl.appliedThrottle && cyclopsMotorMode.engineOn)
+        if (cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && subControl.appliedThrottle && cyclopsMotorMode.engineOn)
         {
             engineOverheatValue = Mathf.Min(engineOverheatValue + 1, 10);
             int fireChance = 0;
-            if(engineOverheatValue > 5)
+            if (engineOverheatValue > 5)
             {
                 fireChance = Random.Range(1, 4);
                 subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.engineOverheatCriticalNotification);
             }
-            else if(engineOverheatValue > 3)
+            else if (engineOverheatValue > 3)
             {
                 fireChance = Random.Range(1, 6);
                 subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.engineOverheatNotification);
             }
 
-            if(fireChance == 1)
+            if (fireChance == 1)
             {
                 CreateFire(engineRoom);
             }
         }
         else
         {
-            if(cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank)
+            if (cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank)
             {
                 engineOverheatValue = Mathf.Max(1, engineOverheatValue - 1);
                 return;
@@ -197,7 +196,7 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
         foreach (var subRoom in subRooms)
         {
-            if(subRoom == room)
+            if (subRoom == room)
             {
                 float fireValueFalloff = smokeFalloffPerRoom * (roomsAwayFromRoot == 0f ? 1f : (smokeFalloffPerRoom * roomsAwayFromRoot));
                 subRoom.smokeValue += smokePerTick * baseFireValue / fireValueFalloff;
@@ -276,7 +275,7 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
             numFires += subRoom.fireValue;
         }
 
-        if(numFires == 0)
+        if (numFires == 0)
         {
             BroadcastMessage("ClearFireWarning", SendMessageOptions.DontRequireReceiver);
         }
@@ -311,7 +310,7 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         spawnBase.SpawnManual(delegate (GameObject fireGO)
         {
             Fire fire = fireGO.GetComponentInChildren<Fire>();
-            if(fire)
+            if (fire)
             {
                 fire.fireSubRoot = subRoot;
             }
@@ -323,7 +322,7 @@ internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         if (damageInfo.damage <= 0) return;
 
         float fireChance = 9f;
-        if(damageInfo.type == DamageType.Fire)
+        if (damageInfo.type == DamageType.Fire)
         {
             fireChance = 2f;
         }

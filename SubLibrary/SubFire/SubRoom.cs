@@ -14,7 +14,7 @@ internal class SubRoom : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         GameObject entity = UWE.Utils.GetEntityRoot(col.gameObject);
-        if(!entity) entity = col.gameObject;
+        if (!entity) entity = col.gameObject;
 
         Player player = UWE.Utils.GetComponentInHierarchy<Player>(entity);
         if (!player) return;
