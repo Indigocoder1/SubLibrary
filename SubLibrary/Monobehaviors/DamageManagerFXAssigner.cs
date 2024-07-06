@@ -1,5 +1,4 @@
-﻿using Discord;
-using SubLibrary.CyclopsReferencers;
+﻿using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 
 namespace SubLibrary.Monobehaviors;
@@ -10,7 +9,7 @@ internal class DamageManagerFXAssigner : MonoBehaviour, ICyclopsReferencer
 
     private void OnValidate()
     {
-        if(!damageManager && TryGetComponent(out CyclopsExternalDamageManager manager)) damageManager = manager;
+        if (!damageManager && TryGetComponent(out CyclopsExternalDamageManager manager)) damageManager = manager;
     }
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)

@@ -164,7 +164,7 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
     private void StartPiloting()
     {
         hudActive = true;
-        if(hornObject) hornObject.SetActive(true);
+        if (hornObject) hornObject.SetActive(true);
     }
 
     /// <summary>

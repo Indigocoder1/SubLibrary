@@ -1,5 +1,4 @@
-﻿using Discord;
-using SubLibrary.CyclopsReferencers;
+﻿using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 
 namespace SubLibrary.Monobehaviors;
