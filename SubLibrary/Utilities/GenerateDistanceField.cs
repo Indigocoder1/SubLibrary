@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SubLibrary.Utilities;
 
-internal class GenerateDistanceField : MonoBehaviour
+public class GenerateDistanceField : MonoBehaviour
 {
     [Header("Config values")]
     [SerializeField] private Bounds bounds;
@@ -11,11 +11,11 @@ internal class GenerateDistanceField : MonoBehaviour
     [SerializeField] private float pixelsPerUnit;
 
     //Too lazy to make a custom editor for this
-    [Header("Bake")] 
+    [Header("Bake")]
     [SerializeField] private bool generateTexture;
 
     [Header("Editor visualization")]
-    [SerializeField]  private bool visualizeInEditor;
+    [SerializeField] private bool visualizeInEditor;
     [Tooltip("Percentage value representing the depth through the volume at which the cross section is visualized.")]
     [SerializeField, Range(0f, 1f)] private float crossSectionVisualizationDepth;
     [SerializeField] private Axis crossSectionAxis;
