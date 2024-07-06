@@ -10,22 +10,25 @@ namespace SubLibrary.SubFire;
 
 internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 {
-    [SerializeField] private Transform fireSpawnsRoot;
+    [SerializeField, Tooltip("Should have multiple \"SubRoom\"s as children for fire spreading")] private Transform fireSpawnsRoot;
     [SerializeField] private LiveMixin liveMixin;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsExternalCams externalCams;
-    [Tooltip("The renderer that shows when not in the sub. Should be visible from the cockpit glass so it looks like there's smoke inside.")]
+    [Tooltip("The renderer that shows smoke when not in the sub. Should be visible from the cockpit glass")]
     [SerializeField] private Renderer smokeImposterRenderer;
-    [SerializeField] private Color smokeImpostorColor = new Color(0.2f, 0.2f, 0.2f, 1);
+    [SerializeField, Tooltip("The color of the impostor smoke")] private Color smokeImpostorColor = new Color(0.2f, 0.2f, 0.2f, 1);
+    [Tooltip("The opacity of the smoke impostor relative to the sub's smoke value (1 = max, 0 = none)")]
     [SerializeField] private AnimationCurve smokeImpostorRemap;
-    [SerializeField] private FMOD_CustomEmitter fireMusic;
+    [SerializeField, Tooltip("The music that plays when a fire is happening")] private FMOD_CustomEmitter fireMusic;
     [SerializeField] private CyclopsMotorMode cyclopsMotorMode;
     [SerializeField] private SubControl subControl;
     [SerializeField] private BehaviourLOD LOD;
+    [Tooltip("The SubRoom that the engine is in. Will be the spawn point of a fire if the engine overheats")]
     [SerializeField] private SubRoom engineRoom;
-    [SerializeField] private float smokePerTick = 0.01f;
-    [SerializeField] private float smokeFalloffPerRoom = 2f;
-    [SerializeField] private float fireSuppressionSystemDuration = 30f;
+    [SerializeField, Tooltip("How much smoke to add per smoke sim update")] private float smokePerTick = 0.01f;
+    [SerializeField, Tooltip("How much the smoke value increment decreases per room from fire source")] private float smokeFalloffPerRoom = 2f;
+    [SerializeField, Tooltip("How long the fire suppression system runs for")] private float fireSuppressionSystemDuration = 30f;
+    [Tooltip("How long the doors are locked for after fire suppression is started")]
     [SerializeField] private float fireSuppressionDoorLockDuration = 30f;
 
     private int oldFireCount;

@@ -158,13 +158,21 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
         fireWarning = false;
     }
 
+    /// <summary>
+    /// Called via <see cref="GameObject.SendMessage(string)"/> when the player starts piloting
+    /// </summary>
     private void StartPiloting()
     {
         hudActive = true;
+        if(hornObject) hornObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Called via <see cref="GameObject.SendMessage(string)"/> when the player stops piloting
+    /// </summary>
     private void StopPiloting()
     {
         hudActive = false;
+        if (hornObject) hornObject.SetActive(false);
     }
 }
