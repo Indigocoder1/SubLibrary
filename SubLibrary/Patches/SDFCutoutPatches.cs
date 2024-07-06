@@ -6,12 +6,11 @@ namespace SubLibrary.Patches;
 internal class SDFCutoutPatches
 {
     [HarmonyPatch(nameof(SDFCutout.Start), MethodType.Enumerator), HarmonyPrefix]
-    private static bool Start_Prefix(SDFCutout __instance)
+    private static bool Start_Prefix(object __instance)
     {
-        var objectInstance = (object)__instance;
-        var fields = objectInstance.GetType().GetFields();
+        var fields = __instance.GetType().GetFields();
 
-        SDFCutout cutout = (SDFCutout)fields[0].GetValue(objectInstance);
+        SDFCutout cutout = (SDFCutout)fields[0].GetValue(__instance);
         var distanceFieldManager = cutout.GetComponent<DistanceFieldAssigner>();
 
         return distanceFieldManager == null;
