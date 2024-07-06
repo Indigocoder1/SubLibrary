@@ -6,21 +6,21 @@ namespace SubLibrary.Utilities;
 public class GenerateDistanceField : MonoBehaviour
 {
     [Header("Config values")]
-    [SerializeField] private Bounds bounds;
-    [SerializeField] private DistanceField distanceField;
-    [SerializeField] private float pixelsPerUnit;
+    public Bounds bounds;
+    public DistanceField distanceField;
+    public float pixelsPerUnit;
 
     //Too lazy to make a custom editor for this
     [Header("Bake")]
-    [SerializeField] private bool generateTexture;
+    public bool generateTexture;
 
     [Header("Editor visualization")]
-    [SerializeField] private bool visualizeInEditor;
+    public bool visualizeInEditor;
     [Tooltip("Percentage value representing the depth through the volume at which the cross section is visualized.")]
-    [SerializeField, Range(0f, 1f)] private float crossSectionVisualizationDepth;
-    [SerializeField] private Axis crossSectionAxis;
+    [Range(0f, 1f)] public float crossSectionVisualizationDepth;
+    public Axis crossSectionAxis;
     [Tooltip("If false (default value), the interior pixels will be rendered. If true, exterior pixels are rendered.")]
-    [SerializeField] private bool inverseVisualization;
+    public bool inverseVisualization;
 
     private Vector3 Resolution => bounds.size * pixelsPerUnit;
     private Texture3D Texture3D => distanceField.texture;
