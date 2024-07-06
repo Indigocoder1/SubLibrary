@@ -1,13 +1,17 @@
-﻿using SubLibrary.CyclopsReferencers;
+﻿using Discord;
+using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 
 namespace SubLibrary.Monobehaviors;
 
-public class VFXMaterialApplier : MonoBehaviour, ICyclopsReferencer
+public class VFXMaterialsApplier : MonoBehaviour, ICyclopsReferencer
 {
-    [SerializeField] private float waterLevelYOffset = 3;
     [SerializeField] private VFXConstructing vfxConstructing;
-    [SerializeField] private CyclopsExternalDamageManager damageManager;
+
+    private void OnValidate()
+    {
+        if (!vfxConstructing && TryGetComponent(out VFXConstructing constructing)) vfxConstructing = constructing;
+    }
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
@@ -17,7 +21,5 @@ public class VFXMaterialApplier : MonoBehaviour, ICyclopsReferencer
         vfxConstructing.alphaDetailTexture = cyclopsConstructing.alphaDetailTexture;
         vfxConstructing.transparentShaders = cyclopsConstructing.transparentShaders;
         vfxConstructing.surfaceSplashFX = cyclopsConstructing.surfaceSplashFX;
-
-        damageManager.fxPrefabs = cyclops.GetComponentInChildren<CyclopsExternalDamageManager>(true).fxPrefabs;
     }
 }
