@@ -11,7 +11,7 @@ public static class CyclopsReferenceHandler
     /// <summary>
     /// Waits for <see cref="LightmappedPrefabs.main"/> to be initialized, then caches the Cyclops prefab.
     /// </summary>
-    internal static IEnumerator EnsureCyclopsReference()
+    public static IEnumerator EnsureCyclopsReference()
     {
         if (CyclopsReference)
         {
