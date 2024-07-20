@@ -9,6 +9,7 @@ namespace SubLibrary.Utilities;
 public class MaterialSetter : MonoBehaviour
 {
     [SerializeField] private MaterialMode mode;
+    [SerializeField] private bool runAtStart = true;
 
     [Header("For single renderer mode")]
     [SerializeField] private Renderer renderer;
@@ -26,6 +27,13 @@ public class MaterialSetter : MonoBehaviour
     private void OnValidate()
     {
         if (!renderer) renderer = GetComponent<Renderer>();
+    }
+
+    private void Start()
+    {
+        if (!runAtStart) return;
+
+        AssignMaterials();
     }
 
     public void AssignMaterials()
