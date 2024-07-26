@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using Nautilus.Handlers;
+using Nautilus.Json;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SubLibrary.SaveData;
 
-internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
+internal class SubSerializationManager : MonoBehaviour
 {
-    public static SubLibrarySaveDataCache SubSaves = new();
-
     [HideInInspector] public BaseSubDataClass saveData;
 
     [SerializeField] private PrefabIdentifier prefabIdentifier;
@@ -24,9 +24,21 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
         saveData = new ModuleDataClass();
     }
 
-    public void OnProtoDeserialize(ProtobufSerializer serializer)
+    private void OnEnable()
     {
-        var serializedSave = SubSaves.saves[prefabIdentifier.Id];
+        Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
+        Plugin.SubSaves.OnFinishedLoading += OnSaveDataLoaded;
+    }
+
+    private void OnDisable()
+    {
+        Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
+        Plugin.SubSaves.OnFinishedLoading -= OnSaveDataLoaded;
+    }
+
+    public void OnSaveDataLoaded(object sender, JsonFileEventArgs args)
+    {
+        var serializedSave = Plugin.SubSaves.saves[prefabIdentifier.Id];
 
         var saveData = DeserializeSubSaveData(serializedSave);
         this.saveData = saveData;
@@ -37,7 +49,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
         }
     }
 
-    public void OnProtoSerialize(ProtobufSerializer serializer)
+    public void OnBeforeSave(object sender, JsonFileEventArgs args)
     {
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
@@ -58,7 +70,10 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
         Type dataClassType = typeof(object);
         try
         {
-            dataClassType = Type.GetType(saveDataClassTypeName, true);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Type type = assemblies.SelectMany(a => a.GetTypes()).Single(t => t != null && t.FullName == saveDataClassTypeName);
+
+            dataClassType = type;
         }
         catch (Exception ex)
         {
@@ -67,13 +82,14 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
         SubSaveData subSaveData = new(dataClassType, serializedData);
 
-        if (!SubSaves.saves.ContainsKey(prefabIdentifier.Id))
+        if (!Plugin.SubSaves.saves.ContainsKey(prefabIdentifier.Id))
         {
-            SubSaves.saves.Add(prefabIdentifier.Id, subSaveData);
+            Plugin.Logger.LogInfo($"Adding entry for {prefabIdentifier.gameObject}");
+            Plugin.SubSaves.saves.Add(prefabIdentifier.Id, subSaveData);
         }
         else
         {
-            SubSaves.saves[prefabIdentifier.Id] = subSaveData;
+            Plugin.SubSaves.saves[prefabIdentifier.Id] = subSaveData;
         }
     }
 }

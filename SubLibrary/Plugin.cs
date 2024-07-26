@@ -1,6 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using Nautilus.Handlers;
+using SubLibrary.SaveData;
 using SubLibrary.Utilities;
 using System.Reflection;
 
@@ -17,6 +19,8 @@ public class Plugin : BaseUnityPlugin
     public new static ManualLogSource Logger { get; private set; }
 
     private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+
+    internal static SubLibrarySaveDataCache SubSaves { get; } = SaveDataHandler.RegisterSaveDataCache<SubLibrarySaveDataCache>();
 
     private void Awake()
     {
