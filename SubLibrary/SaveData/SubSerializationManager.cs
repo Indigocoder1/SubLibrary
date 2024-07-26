@@ -7,7 +7,7 @@ namespace SubLibrary.SaveData;
 
 internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 {
-    public static Dictionary<string, SubSaveData> SubSaves = new();
+    public static SubLibrarySaveDataCache SubSaves = new();
 
     [HideInInspector] public BaseSubDataClass saveData;
 
@@ -26,7 +26,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
     public void OnProtoDeserialize(ProtobufSerializer serializer)
     {
-        var serializedSave = SubSaves[prefabIdentifier.Id];
+        var serializedSave = SubSaves.saves[prefabIdentifier.Id];
 
         var saveData = DeserializeSubSaveData(serializedSave);
         this.saveData = saveData;
@@ -67,13 +67,13 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
         SubSaveData subSaveData = new(dataClassType, serializedData);
 
-        if (!SubSaves.ContainsKey(prefabIdentifier.Id))
+        if (!SubSaves.saves.ContainsKey(prefabIdentifier.Id))
         {
-            SubSaves.Add(prefabIdentifier.Id, subSaveData);
+            SubSaves.saves.Add(prefabIdentifier.Id, subSaveData);
         }
         else
         {
-            SubSaves[prefabIdentifier.Id] = subSaveData;
+            SubSaves.saves[prefabIdentifier.Id] = subSaveData;
         }
     }
 }
