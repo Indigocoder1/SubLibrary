@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <Import Project="Configurations.targets" />
+  <Import Project="References.targets" />
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
