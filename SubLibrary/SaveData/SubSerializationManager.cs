@@ -1,5 +1,4 @@
-﻿using Nautilus.Handlers;
-using Nautilus.Json;
+﻿using Nautilus.Json;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -7,7 +6,7 @@ using UnityEngine;
 
 namespace SubLibrary.SaveData;
 
-internal class SubSerializationManager : MonoBehaviour
+internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 {
     [HideInInspector] public BaseSubDataClass saveData;
 
@@ -24,28 +23,19 @@ internal class SubSerializationManager : MonoBehaviour
         saveData = new ModuleDataClass();
     }
 
-    private void OnEnable()
-    {
-        Plugin.Logger.LogInfo($"Subscribing to save events");
+    private void OnEnable() => Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
+    private void OnDisable() => Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
 
-        Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
-        Plugin.SubSaves.OnFinishedLoading += OnSaveDataLoaded;
-    }
+    public void OnProtoSerialize(ProtobufSerializer serializer) { }
 
-    private void OnDisable()
-    {
-        Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
-        Plugin.SubSaves.OnFinishedLoading -= OnSaveDataLoaded;
-    }
+    public void OnProtoDeserialize(ProtobufSerializer serializer) => OnSaveDataLoaded();
 
-    public void OnSaveDataLoaded(object sender, JsonFileEventArgs args)
+    public void OnSaveDataLoaded()
     {
         var serializedSave = Plugin.SubSaves.saves[prefabIdentifier.Id];
 
         var saveData = DeserializeSubSaveData(serializedSave);
         this.saveData = saveData;
-
-        Plugin.Logger.LogInfo($"Calling on save data loaded");
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
@@ -85,7 +75,6 @@ internal class SubSerializationManager : MonoBehaviour
         }
 
         SubSaveData subSaveData = new(dataClassType, serializedData);
-        Plugin.Logger.LogInfo($"Sub save data = {subSaveData} | Data type = {dataClassType} | Serialized data = {serializedData}");
 
         if (!Plugin.SubSaves.saves.ContainsKey(prefabIdentifier.Id))
         {
