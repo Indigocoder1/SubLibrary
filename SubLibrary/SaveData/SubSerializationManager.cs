@@ -26,6 +26,8 @@ internal class SubSerializationManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Plugin.Logger.LogInfo($"Subscribing to save events");
+
         Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
         Plugin.SubSaves.OnFinishedLoading += OnSaveDataLoaded;
     }
@@ -42,6 +44,8 @@ internal class SubSerializationManager : MonoBehaviour
 
         var saveData = DeserializeSubSaveData(serializedSave);
         this.saveData = saveData;
+
+        Plugin.Logger.LogInfo($"Calling on save data loaded");
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
@@ -81,10 +85,10 @@ internal class SubSerializationManager : MonoBehaviour
         }
 
         SubSaveData subSaveData = new(dataClassType, serializedData);
+        Plugin.Logger.LogInfo($"Sub save data = {subSaveData} | Data type = {dataClassType} | Serialized data = {serializedData}");
 
         if (!Plugin.SubSaves.saves.ContainsKey(prefabIdentifier.Id))
         {
-            Plugin.Logger.LogInfo($"Adding entry for {prefabIdentifier.gameObject}");
             Plugin.SubSaves.saves.Add(prefabIdentifier.Id, subSaveData);
         }
         else

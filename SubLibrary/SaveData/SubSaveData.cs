@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace SubLibrary.SaveData;
 
 [Serializable]
 internal struct SubSaveData
 {
-    internal Type endTypeToDeserializeTo;
-    internal string jsonSerializedData;
+    [JsonProperty] internal Type endTypeToDeserializeTo;
+    [JsonProperty] internal string jsonSerializedData;
 
     public SubSaveData(Type endTypeToDeserializeTo, string jsonSerializedData)
     {
