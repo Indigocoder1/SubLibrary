@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SubLibrary.SaveData;
 
-internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
+public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProtoTreeEventListener
 {
     [HideInInspector] public BaseSubDataClass saveData;
 
@@ -30,7 +30,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
 
     public void OnProtoDeserialize(ProtobufSerializer serializer) => OnSaveDataLoaded();
 
-    public void OnSaveDataLoaded()
+    private void OnSaveDataLoaded()
     {
         var serializedSave = Plugin.SubSaves.saves[prefabIdentifier.Id];
 
@@ -43,7 +43,7 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
         }
     }
 
-    public void OnBeforeSave(object sender, JsonFileEventArgs args)
+    private void OnBeforeSave(object sender, JsonFileEventArgs args)
     {
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
@@ -83,6 +83,16 @@ internal class SubSerializationManager : MonoBehaviour, IProtoEventListener
         else
         {
             Plugin.SubSaves.saves[prefabIdentifier.Id] = subSaveData;
+        }
+    }
+
+    public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }
+
+    public void OnProtoDeserializeObjectTree(ProtobufSerializer serializer)
+    {
+        foreach (var saveListener in GetComponentsInChildren<ILateSaveDataListener>(true))
+        {
+            saveListener.OnLateSaveDataLoaded(saveData);
         }
     }
 }
