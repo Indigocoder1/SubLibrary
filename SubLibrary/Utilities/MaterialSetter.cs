@@ -51,7 +51,7 @@ public class MaterialSetter : MonoBehaviour
                 renderer.materials = mats;
                 break;
 
-            case MaterialMode.AllChildRenderer:
+            case MaterialMode.AllChildRenderers:
                 foreach (var childRend in GetComponentsInChildren<Renderer>(true))
                 {
                     var childRendMats = childRend.materials;
@@ -142,7 +142,7 @@ public class MaterialSetter : MonoBehaviour
     public enum MaterialMode
     {
         SingleRenderer,
-        AllChildRenderer,
+        AllChildRenderers,
         AllChildGraphics
     }
 }
