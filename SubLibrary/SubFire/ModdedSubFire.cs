@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace SubLibrary.SubFire;
 
-internal class ModdedSubFire : MonoBehaviour, IOnTakeDamage
+public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 {
     [SerializeField, Tooltip("Should have multiple \"SubRoom\"s as children for fire spreading")] private Transform fireSpawnsRoot;
     [SerializeField] private LiveMixin liveMixin;

@@ -3,7 +3,7 @@
 namespace SubLibrary.SubFire;
 
 [RequireComponent(typeof(Collider))]
-internal class SubRoom : MonoBehaviour
+public class SubRoom : MonoBehaviour
 {
     [HideInInspector] public int fireValue;
     [HideInInspector] public float smokeValue;
