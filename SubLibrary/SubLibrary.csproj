@@ -12,7 +12,26 @@
       https://api.nuget.org/v3/index.json;
       https://nuget.bepinex.dev/v3/index.json;
     </RestoreAdditionalProjectSources>
-  </PropertyGroup>
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+    <Title>Subnautica Sub Library</Title>
+
+    <Description>A submarine library for Subnautica designed for use with Thunderkit</Description>
+
+    <PackageProjectUrl></PackageProjectUrl>
+
+    <Authors>Indigocoder</Authors>
+
+    <RepositoryUrl>https://github.com/Indigocoder1/SubLibrary</RepositoryUrl>
+
+    <PackageTags>Subnautica, Modding, Library, SN1</PackageTags>
+
+    <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+</PropertyGroup>
 
   <Import Project="Configurations.targets" />
   <Import Project="References.targets" />
@@ -25,6 +44,8 @@
     <PackageReference Include="Subnautica.GameLibs" Version="71288.0.0-r.0" />
     <PackageReference Include="PolySharp" Version="1.13.1" />
     <PackageReference Include="Subnautica.Nautilus" Version="1.*-*" PrivateAssets="all" />
+
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">

@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using SubLibrary.SubFire;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace PrototypeSubMod.Patches;
@@ -10,7 +9,7 @@ namespace PrototypeSubMod.Patches;
 internal class ExternalDamageManagerPatches
 {
     [HarmonyPatch(nameof(CyclopsExternalDamageManager.UpdateOvershield)), HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction> OnEnable_Prefix(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> UpdateOvershield_Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var match = new CodeMatch(m => m.opcode == OpCodes.Ldc_I4_0);
 
