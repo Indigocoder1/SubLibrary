@@ -36,7 +36,6 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     private bool fireSuppressionActive;
     private CyclopsSmokeScreenFXController smokeController;
     private SubRoom currentSubRoom;
-    private GameObject firePrefab;
 
     [NonSerialized, ProtoMember(1)] public int fireCount;
     [NonSerialized, ProtoMember(2)] public float currentSmokeVal;
@@ -45,7 +44,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
     private void Start()
     {
-        subRooms = fireSpawnsRoot.GetComponentsInChildren<SubRoom>().Where(i => i.transform.childCount == 0).ToList();
+        subRooms = fireSpawnsRoot.GetComponentsInChildren<SubRoom>().ToList();
 
         smokeController = MainCamera.camera.GetComponent<CyclopsSmokeScreenFXController>();
         smokeController.intensity = currentSmokeVal;
@@ -60,6 +59,8 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
                 CreateFire(room);
             }
         }
+
+        currentSubRoom = engineRoom;
 
         InvokeRepeating(nameof(SmokeSimulation), 3f, 3f);
         InvokeRepeating(nameof(FireSimulation), 10f, 10f);
