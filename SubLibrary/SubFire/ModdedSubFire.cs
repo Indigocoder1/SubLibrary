@@ -155,7 +155,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
         float damage = fireCount * 15f;
         liveMixin.TakeDamage(damage, type: DamageType.Fire);
-        BroadcastMessage("OnTakeFireDamage", SendMessageOptions.DontRequireReceiver);
+        subRoot.BroadcastMessage("OnTakeFireDamage", SendMessageOptions.DontRequireReceiver);
         oldFireCount = fireCount;
     }
 
