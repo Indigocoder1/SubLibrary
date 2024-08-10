@@ -15,7 +15,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsExternalCams externalCams;
     [Tooltip("The renderer that shows smoke when not in the sub. Should be visible from the cockpit glass")]
-    [SerializeField] private Renderer smokeImposterRenderer;
+    [SerializeField] private Renderer[] smokeImposterRenderers;
     [SerializeField, Tooltip("The color of the impostor smoke")] private Color smokeImpostorColor = new Color(0.2f, 0.2f, 0.2f, 1);
     [Tooltip("The opacity of the smoke impostor relative to the sub's smoke value (1 = max, 0 = none)")]
     [SerializeField] private AnimationCurve smokeImpostorRemap;
@@ -50,7 +50,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         smokeController.intensity = currentSmokeVal;
         Color col = smokeImpostorColor;
         col.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
-        smokeImposterRenderer.material.SetColor(ShaderPropertyID._Color, col);
+        smokeImposterRenderers.ForEach(r => r.material.SetColor(ShaderPropertyID._Color, col));
         if (fireCount > 0)
         {
             for (int i = 0; i < fireCount; i++)
@@ -75,19 +75,19 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         currentSmokeVal = Mathf.Lerp(currentSmokeVal, smokeValue, Time.deltaTime / 2f);
         Color color = smokeImpostorColor;
         color.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
-        smokeImposterRenderer.material.SetColor(ShaderPropertyID._Color, color);
+        smokeImposterRenderers.ForEach(r => r.material.SetColor(ShaderPropertyID._Color, color));
         if (Player.main.currentSub == null)
         {
-            smokeImposterRenderer.enabled = true;
+            smokeImposterRenderers.ForEach(r => r.enabled = true);
             if (smokeController)
             {
                 smokeController.intensity = 0f;
             }
             return;
         }
-        if (Player.main.currentSub == subRoot)
+        if (Player.main.currentSub != subRoot)
         {
-            smokeImposterRenderer.enabled = true;
+            smokeImposterRenderers.ForEach(r => r.enabled = true);
             return;
         }
         if (smokeController)
@@ -95,11 +95,11 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
             if (externalCams.GetActive())
             {
                 smokeController.intensity = 0;
-                smokeImposterRenderer.enabled = true;
+                smokeImposterRenderers.ForEach(r => r.enabled = true);
                 return;
             }
             smokeController.intensity = currentSmokeVal;
-            smokeImposterRenderer.enabled = false;
+            smokeImposterRenderers.ForEach(r => r.enabled = false);
         }
     }
 
@@ -384,13 +384,13 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     /// </summary>
     public void CyclopsDeathEvent()
     {
-        smokeImposterRenderer.gameObject.SetActive(false);
+        smokeImposterRenderers.ForEach(r => r.gameObject.SetActive(false));
         fireMusic.Stop();
         CancelInvoke();
     }
 
     private void OnDestroy()
     {
-        Destroy(smokeImposterRenderer.material);
+        smokeImposterRenderers.ForEach(r => Destroy(r.material));
     }
 }

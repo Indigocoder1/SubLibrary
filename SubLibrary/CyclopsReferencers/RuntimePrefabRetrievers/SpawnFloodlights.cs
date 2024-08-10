@@ -23,9 +23,4 @@ internal class SpawnFloodlights : MonoBehaviour, ICyclopsReferencer
             Instantiate(light, child.transform.position, child.transform.rotation, child.transform).gameObject.SetActive(true);
         }
     }
-
-    internal class FloodlightMarker : MonoBehaviour
-    {
-        public string lightPrefabObjectName = "VolumetricLight";
-    }
 }
