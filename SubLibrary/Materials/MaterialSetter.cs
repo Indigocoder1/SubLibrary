@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SubLibrary.Utilities;
+namespace SubLibrary.Materials;
 
 public class MaterialSetter : MonoBehaviour
 {
