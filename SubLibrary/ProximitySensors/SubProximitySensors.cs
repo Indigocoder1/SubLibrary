@@ -16,13 +16,41 @@ internal class SubProximitySensors : MonoBehaviour
     [Tooltip("How long between each proximity check; reduced by 75% when an object is detected")]
     [SerializeField] private float sensorDelay = 1f;
 
+    [SerializeField, HideInInspector] private GameObject[] warningDots;
+    [SerializeField, HideInInspector] private Transform[] sensorProbes;
+    [SerializeField, HideInInspector] private float[] sphereRadi;
+    [SerializeField, HideInInspector] private float[] travelDistances;
+
+    private List<SensorNode> serializedNodes = new();
     private bool detectedCollision;
     private bool panelActive;
 
+    private void OnValidate()
+    {
+        warningDots = new GameObject[sensorNodes.Count];
+        sensorProbes = new Transform[sensorNodes.Count];
+        sphereRadi = new float[sensorNodes.Count];
+        travelDistances = new float[sensorNodes.Count];
+
+        for (int i = 0; i < sensorNodes.Count; i++)
+        {
+            var node = sensorNodes[i];
+            warningDots[i] = node.uiWarningDot;
+            sensorProbes[i] = node.sensorProbe;
+            sphereRadi[i] = node.sphereCheckRadius;
+            travelDistances[i] = node.checkTravelDistance;
+        }
+    }
+
     private void Start()
     {
+        for (int i = 0; i < warningDots.Length; i++)
+        {
+            serializedNodes.Add(new SensorNode(warningDots[i], sensorProbes[i], sphereRadi[i], travelDistances[i]));
+        }
+
         Player.main.playerModeChanged.AddHandler(gameObject, OnPlayerModeChange);
-        foreach (var node in sensorNodes)
+        foreach (var node in serializedNodes)
         {
             node.uiWarningDot.SetActive(false);
         }
@@ -43,7 +71,7 @@ internal class SubProximitySensors : MonoBehaviour
         {
             uiWarningPanel.SetBool(animatorActiveBoolName, false);
             uiWarningIcon.SetActive(false);
-            foreach (var node in sensorNodes)
+            foreach (var node in serializedNodes)
             {
                 node.uiWarningDot.SetActive(false);
             }
@@ -92,7 +120,7 @@ internal class SubProximitySensors : MonoBehaviour
 
         uiWarningIcon.SetActive(enableWarningUI && motorMode.engineOn);
 
-        foreach (var node in sensorNodes)
+        foreach (var node in serializedNodes)
         {
             if(node.returnDistance != NO_COLLISION && motorMode.engineOn)
             {
@@ -111,9 +139,9 @@ internal class SubProximitySensors : MonoBehaviour
     {
         enableWarningUI = false;
 
-        for (int i = 0; i < sensorNodes.Count; i++)
+        for (int i = 0; i < serializedNodes.Count; i++)
         {
-            var node = sensorNodes[i];
+            var node = serializedNodes[i];
             node.returnDistance = NO_COLLISION;
 
             float distance = node.checkTravelDistance;
@@ -149,12 +177,20 @@ internal class SubProximitySensors : MonoBehaviour
     [System.Serializable]
     public struct SensorNode
     {
-        [AssertNotNull(AssertNotNullAttribute.Options.IgnorePrefabs)] public GameObject uiWarningDot;
-        [AssertNotNull(AssertNotNullAttribute.Options.IgnorePrefabs)] public Transform sensorProbe;
+        public GameObject uiWarningDot;
+        public Transform sensorProbe;
         public float sphereCheckRadius;
         [Tooltip("How far the spherecast will travel along the sensor probe forward vector")]
         public float checkTravelDistance;
 
         [HideInInspector] public float returnDistance;
+
+        public SensorNode(GameObject uiWarningDot, Transform sensorProbe, float sphereCheckRadius, float checkTravelDistance)
+        {
+            this.uiWarningDot = uiWarningDot;
+            this.sensorProbe = sensorProbe;
+            this.sphereCheckRadius = sphereCheckRadius;
+            this.checkTravelDistance = checkTravelDistance;
+        }
     }
 }
