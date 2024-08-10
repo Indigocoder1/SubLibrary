@@ -23,7 +23,7 @@ internal class SubProximitySensors : MonoBehaviour
 
     private List<SensorNode> serializedNodes = new();
     private bool detectedCollision;
-    private bool panelActive;
+    private float pingInterval;
 
     private void OnValidate()
     {
@@ -49,7 +49,7 @@ internal class SubProximitySensors : MonoBehaviour
             serializedNodes.Add(new SensorNode(warningDots[i], sensorProbes[i], sphereRadi[i], travelDistances[i]));
         }
 
-        Player.main.playerModeChanged.AddHandler(gameObject, OnPlayerModeChange);
+        Player.main.playerModeChanged.AddHandler(gameObject, new UWE.Event<Player.Mode>.HandleFunction(OnPlayerModeChange));
         foreach (var node in serializedNodes)
         {
             node.uiWarningDot.SetActive(false);
@@ -92,10 +92,10 @@ internal class SubProximitySensors : MonoBehaviour
 
         if(closestDistance != NO_COLLISION)
         {
-            float pingInterval = closestDistance / pingSoundReduction + 0.2f;
+            pingInterval = closestDistance / pingSoundReduction + 0.2f;
             if(!IsInvoking(nameof(PlayPingSound)))
             {
-                InvokeRepeating(nameof(PlayPingSound), pingInterval, pingInterval);
+                Invoke(nameof(PlayPingSound), pingInterval);
             }
         }
         else
@@ -149,9 +149,7 @@ internal class SubProximitySensors : MonoBehaviour
             Vector3 pos = node.sensorProbe.position;
             Vector3 forward = node.sensorProbe.forward;
 
-            //Taken from dnSpy. I assume it's the layer mask for terrain
-            int layerMask = 1073741824;
-            if(Physics.SphereCast(pos, radius, forward, out var hitInfo, distance, layerMask))
+            if(Physics.SphereCast(pos, radius, forward, out var hitInfo, distance))
             {
                 detectedCollision = true;
                 node.returnDistance = hitInfo.distance;
@@ -172,6 +170,7 @@ internal class SubProximitySensors : MonoBehaviour
     private void PlayPingSound()
     {
         proximitySound.Play();
+        Invoke(nameof(PlayPingSound), pingInterval);
     }
 
     [System.Serializable]
