@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<AssemblyName>SubLibrary</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
 	<RootNamespace>SubLibrary</RootNamespace>
@@ -30,7 +30,10 @@
     <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Added fix for detecting sub rooms with spawn children</PackageReleaseNotes>
+    <PackageReleaseNotes>Added sky manager
+Added proximity sensors system
+Fixed floodlight marker not being able to be added as a component
+Fixed OnTakeFireDamage call not reaching the HUD manager</PackageReleaseNotes>
 
 </PropertyGroup>
 

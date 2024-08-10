@@ -10,7 +10,7 @@ The components you need will depend on the sub you are making, but some of the m
 
 There are some components in this library that replace ones that you might find on subs such as the Cyclops. One of the most notable ones is the ``ModdedSubFire`` replacing ``SubFire``. 
 
-This is to provide more flexibility and to remove stuff like the use of enums, which limits expandability.
+This is to provide more flexibility and to remove stuff like the use of enums, which limit expandability.
 
 ## Save System
 
