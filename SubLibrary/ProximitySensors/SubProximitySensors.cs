@@ -54,6 +54,8 @@ internal class SubProximitySensors : MonoBehaviour
         {
             node.uiWarningDot.SetActive(false);
         }
+
+        uiWarningIcon.SetActive(false);
     }
 
     private void OnPlayerModeChange(Player.Mode mode)
@@ -122,7 +124,7 @@ internal class SubProximitySensors : MonoBehaviour
 
         foreach (var node in serializedNodes)
         {
-            if(node.returnDistance != NO_COLLISION && motorMode.engineOn)
+            if (node.returnDistance != NO_COLLISION && motorMode.engineOn)
             {
                 node.uiWarningDot.SetActive(true);
             }
@@ -164,12 +166,15 @@ internal class SubProximitySensors : MonoBehaviour
                     pingSoundReduction = distance;
                 }
             }
+
+            serializedNodes[i] = node;
         }
     }
 
     private void PlayPingSound()
     {
         proximitySound.Play();
+
         Invoke(nameof(PlayPingSound), pingInterval);
     }
 
@@ -182,7 +187,7 @@ internal class SubProximitySensors : MonoBehaviour
         [Tooltip("How far the spherecast will travel along the sensor probe forward vector")]
         public float checkTravelDistance;
 
-        [HideInInspector] public float returnDistance;
+        [SerializeField, HideInInspector] public float returnDistance;
 
         public SensorNode(GameObject uiWarningDot, Transform sensorProbe, float sphereCheckRadius, float checkTravelDistance)
         {
