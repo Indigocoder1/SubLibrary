@@ -151,7 +151,9 @@ internal class SubProximitySensors : MonoBehaviour
             Vector3 pos = node.sensorProbe.position;
             Vector3 forward = node.sensorProbe.forward;
 
-            if(Physics.SphereCast(pos, radius, forward, out var hitInfo, distance))
+            //Value taken from dnSpy. From testing it seems to be the terrain layermask
+            int layerMask = 1073741824;
+            if(Physics.SphereCast(pos, radius, forward, out var hitInfo, distance, layerMask))
             {
                 detectedCollision = true;
                 node.returnDistance = hitInfo.distance;
@@ -166,7 +168,7 @@ internal class SubProximitySensors : MonoBehaviour
                     pingSoundReduction = distance;
                 }
             }
-
+            
             serializedNodes[i] = node;
         }
     }
