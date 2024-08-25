@@ -74,7 +74,7 @@ public class MaterialSetter : MonoBehaviour
 
     public static Material GetMaterial(MaterialType type)
     {
-        return type switch
+        Material mat = type switch
         {
             MaterialType.WaterBarrier => MaterialUtils.AirWaterBarrierMaterial,
             MaterialType.ForceField => MaterialUtils.ForceFieldMaterial,
@@ -86,6 +86,8 @@ public class MaterialSetter : MonoBehaviour
             MaterialType.HolographicUI => holographicUIMaterial,
             _ => null
         };
+
+        return new Material(mat);
     }
 
     public static IEnumerator LoadMaterialsAsync()
