@@ -10,12 +10,12 @@ namespace SubLibrary.Materials;
 
 internal class SubSkyManager : PrefabModifier, ICyclopsReferencer
 {
-    [SerializeField] private SkyApplier exteriorSkyApplier;
-    [SerializeField] private SkyApplier interiorSkyApplier;
-    [SerializeField] private SkyApplier windowSkyApplier;
+    public SkyApplier exteriorSkyApplier;
+    public SkyApplier interiorSkyApplier;
+    public SkyApplier windowSkyApplier;
     [SerializeField] private float[] lightBrightnessMultipliers = new[] { 1, 0.5f, 0f };
 
-    [SerializeField] private LightingController lightingController;
+    public LightingController lightingController;
 
     private List<Renderer> _interiorRenderers = new();
     private List<Renderer> _exteriorRenderers = new();

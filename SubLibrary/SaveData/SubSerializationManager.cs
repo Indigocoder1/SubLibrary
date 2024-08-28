@@ -10,7 +10,7 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
 {
     [HideInInspector] public BaseSubDataClass saveData;
 
-    [SerializeField] private PrefabIdentifier prefabIdentifier;
+    public PrefabIdentifier prefabIdentifier;
     [SerializeField, Tooltip("The name of your save data class that inherits from ModuleDataClass. CASE SENSITIVE!")] private string saveDataClassTypeName;
 
     private void OnValidate()
