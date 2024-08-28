@@ -6,20 +6,21 @@ using UWE;
 
 namespace SubLibrary.Utilities;
 
+[ExecuteAlways]
 internal class AddSubScripts : MonoBehaviour
 {
+    private bool destroy;
+
     private void OnValidate()
     {
-        Destroy(this);
-
         var rb = gameObject.EnsureComponent<Rigidbody>();
         var subRoot = gameObject.EnsureComponent<SubRoot>();
         var idenitifer = gameObject.EnsureComponent<PrefabIdentifier>();
         gameObject.EnsureComponent<TechTag>();
         var lwe = gameObject.EnsureComponent<LargeWorldEntity>();
-        var exteriorApplier = gameObject.EnsureComponent<SkyApplier>();
-        var interiorApplier = gameObject.EnsureComponent<SkyApplier>();
-        var glassApplier = gameObject.EnsureComponent<SkyApplier>();
+        var exteriorApplier = gameObject.AddComponent<SkyApplier>();
+        var interiorApplier = gameObject.AddComponent<SkyApplier>();
+        var glassApplier = gameObject.AddComponent<SkyApplier>();
         var worldForces = gameObject.EnsureComponent<WorldForces>();
         var lightingController = gameObject.EnsureComponent<LightingController>();
         var skyManager = gameObject.EnsureComponent<SubSkyManager>();
@@ -42,7 +43,7 @@ internal class AddSubScripts : MonoBehaviour
         gameObject.EnsureComponent<OxygenManager>();
         var serializationManager = gameObject.EnsureComponent<SubSerializationManager>();
 
-        subRoot.rigidbody = rb;
+        subRoot.rb = rb;
         subRoot.lightControl = lightingController;
         subRoot.noiseManager = noiseManager;
         subRoot.powerRelay = relay;
@@ -68,6 +69,11 @@ internal class AddSubScripts : MonoBehaviour
         noiseManager.cyclopsMotorMode = motorMode;
         noiseManager.subControl = subControl;
 
+        if(vfxConstructing.disableBehaviours == null)
+        {
+            vfxConstructing.disableBehaviours = new();
+        }
+
         vfxConstructing.disableBehaviours.Add(subRoot);
         vfxConstructing.disableBehaviours.Add(freezeWhenFar);
 
@@ -77,5 +83,15 @@ internal class AddSubScripts : MonoBehaviour
         skyManager.interiorSkyApplier = interiorApplier;
         skyManager.windowSkyApplier = glassApplier;
         skyManager.lightingController = lightingController;
+
+        destroy = true;
+    }
+
+    private void Update()
+    {
+        if(destroy)
+        {
+            DestroyImmediate(this);
+        }
     }
 }
