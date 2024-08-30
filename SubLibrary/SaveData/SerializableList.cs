@@ -16,7 +16,7 @@ internal class SerializableList<T> : IList<T>, ICollection<T>, IEnumerable<T>
             {
                 _serializedItems = new List<T>();
 
-                foreach (var kvp in this.fields)
+                foreach (var kvp in fields)
                 {
                     _serializedItems.Add((T)Activator.CreateInstance(typeof(T), kvp.Key));
                 }
@@ -37,14 +37,13 @@ internal class SerializableList<T> : IList<T>, ICollection<T>, IEnumerable<T>
         set
         {
             SerializedItems[index] = value;
-
-
+            UpdateFieldInfo(value);
         }
     }
 
-    public int Count => throw new System.NotImplementedException();
+    public int Count => SerializedItems.Count;
 
-    public bool IsReadOnly => throw new System.NotImplementedException();
+    public bool IsReadOnly => false;
 
     public void Add(T item)
     {
@@ -53,47 +52,50 @@ internal class SerializableList<T> : IList<T>, ICollection<T>, IEnumerable<T>
 
     public void Clear()
     {
-        throw new System.NotImplementedException();
+        SerializedItems.Clear();
+        fields.Clear();
     }
 
     public bool Contains(T item)
     {
-        throw new System.NotImplementedException();
+        return SerializedItems.Contains(item);
     }
 
     public void CopyTo(T[] array, int arrayIndex)
     {
-        throw new System.NotImplementedException();
+        SerializedItems.CopyTo(array, arrayIndex);
     }
 
     public IEnumerator<T> GetEnumerator()
     {
-        throw new System.NotImplementedException();
+        return SerializedItems.GetEnumerator();
     }
 
     public int IndexOf(T item)
     {
-        throw new System.NotImplementedException();
+        return SerializedItems.IndexOf(item);
     }
 
     public void Insert(int index, T item)
     {
-        throw new System.NotImplementedException();
+        SerializedItems.Insert(index, item);
     }
 
     public bool Remove(T item)
     {
-        throw new System.NotImplementedException();
+        fields.Remove(item);
+        return SerializedItems.Remove(item);
     }
 
     public void RemoveAt(int index)
     {
-        throw new System.NotImplementedException();
+        fields.Remove(SerializedItems[index]);
+        SerializedItems.RemoveAt(index);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new System.NotImplementedException();
+        return GetEnumerator();
     }
 
     private void UpdateFieldInfo(T instance)

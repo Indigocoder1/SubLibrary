@@ -20,9 +20,52 @@ public class SubAudioLoader : MonoBehaviour
     private static Dictionary<string, string> busPaths = new();
     private static bool busPathsInitialized;
 
-    [SerializeField] internal SerializableList<AudioData> audioDatas = new();
+    [SerializeField] internal List<AudioData> audioDatas;
 
-    private string[] names;
+    private List<AudioData> SerializedAudioDatas
+    {
+        get
+        {
+            if(_serializedAudioDatas == null)
+            {
+                _serializedAudioDatas = new();
+
+                for (int i = 0; i < names.Length; i++)
+                {
+                    _serializedAudioDatas.Add(new(names[i], paths[i], clips[i], types[i], busPathEnums[i]));
+                }
+            }
+
+            return _serializedAudioDatas;
+        }
+    }
+
+    private List<AudioData> _serializedAudioDatas;
+
+    [SerializeField, HideInInspector] private string[] names;
+    [SerializeField, HideInInspector] private string[] paths;
+    [SerializeField, HideInInspector] private AudioClip[] clips;
+    [SerializeField, HideInInspector] private AudioType[] types;
+    [SerializeField, HideInInspector] private BusPath[] busPathEnums;
+
+    private void OnValidate()
+    {
+        names = new string[audioDatas.Count];
+        paths = new string[audioDatas.Count];
+        clips = new AudioClip[audioDatas.Count];
+        types = new AudioType[audioDatas.Count];
+        busPathEnums = new BusPath[audioDatas.Count];
+
+        for (int i = 0; i < audioDatas.Count; i++)
+        {
+            AudioData data = audioDatas[i];
+            names[i] = data.name;
+            paths[i] = data.path;
+            clips[i] = data.audioClip;
+            types[i] = data.audioType;
+            busPathEnums[i] = data.busPath;
+        }
+    }
 
     /// <summary>
     /// Loads all <see cref="AudioData"/>s in the provided Asset Bundle
@@ -33,7 +76,6 @@ public class SubAudioLoader : MonoBehaviour
         EnsureBusPaths();
 
         object[] allGOs = bundle.LoadAllAssets(typeof(GameObject));
-        Plugin.Logger.LogInfo($"Bundle = {bundle} | Gameobjects = {allGOs} (Length = {allGOs?.Length})");
         foreach(var gameObject in allGOs)
         {
             if (gameObject is not GameObject) continue;
@@ -41,9 +83,8 @@ public class SubAudioLoader : MonoBehaviour
             var loader = (gameObject as GameObject).GetComponentInChildren<SubAudioLoader>(true);
             if (loader == null) continue;
 
-            foreach (var data in loader.audioDatas)
+            foreach (var data in loader.SerializedAudioDatas)
             {
-                Plugin.Logger.LogInfo($"Loading data ({data}) | Path = {data.path} | Clip = {data.audioClip} | Type = {data.audioType}");
                 LoadAudioData(data);
             }
         }
@@ -82,15 +123,25 @@ public class SubAudioLoader : MonoBehaviour
 }
 
 [Serializable]
-internal class AudioData
+internal struct AudioData
 {
     public string name;
     public string path;
     public AudioClip audioClip;
     public AudioType audioType;
     public BusPath busPath;
+
+    public AudioData(string name, string path, AudioClip audioClip, AudioType audioType, BusPath busPath)
+    {
+        this.name = name;
+        this.path = path;
+        this.audioClip = audioClip;
+        this.audioType = audioType;
+        this.busPath = busPath;
+    }
 }
 
+[Serializable]
 internal enum AudioType
 {
     WorldSound,
@@ -98,6 +149,7 @@ internal enum AudioType
     OnlyLoadInBundle
 }
 
+[Serializable]
 internal enum BusPath
 {
     UnderwaterCreatures,
