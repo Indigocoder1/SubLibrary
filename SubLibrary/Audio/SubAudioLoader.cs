@@ -1,6 +1,7 @@
 ﻿using FMOD;
 using Nautilus.Handlers;
 using Nautilus.Utility;
+using SubLibrary.SaveData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,9 @@ public class SubAudioLoader : MonoBehaviour
     private static Dictionary<string, string> busPaths = new();
     private static bool busPathsInitialized;
 
-    [SerializeField] internal List<AudioData> audioDatas = new();
+    [SerializeField] internal SerializableList<AudioData> audioDatas = new();
+
+    private string[] names;
 
     /// <summary>
     /// Loads all <see cref="AudioData"/>s in the provided Asset Bundle
@@ -29,14 +32,18 @@ public class SubAudioLoader : MonoBehaviour
     {
         EnsureBusPaths();
 
-        GameObject[] allGOs = bundle.LoadAllAssets(typeof(GameObject)) as GameObject[];
+        object[] allGOs = bundle.LoadAllAssets(typeof(GameObject));
+        Plugin.Logger.LogInfo($"Bundle = {bundle} | Gameobjects = {allGOs} (Length = {allGOs?.Length})");
         foreach(var gameObject in allGOs)
         {
-            var loader = gameObject.GetComponentInChildren<SubAudioLoader>(true);
+            if (gameObject is not GameObject) continue;
+
+            var loader = (gameObject as GameObject).GetComponentInChildren<SubAudioLoader>(true);
             if (loader == null) continue;
 
             foreach (var data in loader.audioDatas)
             {
+                Plugin.Logger.LogInfo($"Loading data ({data}) | Path = {data.path} | Clip = {data.audioClip} | Type = {data.audioType}");
                 LoadAudioData(data);
             }
         }
@@ -75,7 +82,7 @@ public class SubAudioLoader : MonoBehaviour
 }
 
 [Serializable]
-internal struct AudioData
+internal class AudioData
 {
     public string name;
     public string path;
