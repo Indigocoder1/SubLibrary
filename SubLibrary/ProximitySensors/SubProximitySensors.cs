@@ -151,8 +151,7 @@ internal class SubProximitySensors : MonoBehaviour
             Vector3 pos = node.sensorProbe.position;
             Vector3 forward = node.sensorProbe.forward;
 
-            //Value taken from dnSpy. From testing it seems to be the terrain layermask
-            int layerMask = 1073741824;
+            int layerMask = LayerID.TerrainCollider;
             if(Physics.SphereCast(pos, radius, forward, out var hitInfo, distance, layerMask))
             {
                 detectedCollision = true;
