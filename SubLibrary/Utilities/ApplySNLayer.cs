@@ -16,8 +16,8 @@ internal class ApplySNLayer : MonoBehaviour
     public enum LayerName
     {
         Default,
-        Usable,
-        NotUsable,
+        Useable,
+        NotUseable,
         Player,
         TerrainCollider,
         UI,
