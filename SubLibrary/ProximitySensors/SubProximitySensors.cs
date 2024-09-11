@@ -92,7 +92,7 @@ internal class SubProximitySensors : MonoBehaviour
             RunSphereCasts(ref closestDistance, ref pingSoundReduction, out enableWarningUI);
         }
 
-        if(closestDistance != NO_COLLISION)
+        if (closestDistance != NO_COLLISION)
         {
             pingInterval = closestDistance / pingSoundReduction + 0.2f;
             if(!IsInvoking(nameof(PlayPingSound)))
@@ -151,16 +151,21 @@ internal class SubProximitySensors : MonoBehaviour
             Vector3 pos = node.sensorProbe.position;
             Vector3 forward = node.sensorProbe.forward;
 
-            int layerMask = LayerID.TerrainCollider;
-            if(Physics.SphereCast(pos, radius, forward, out var hitInfo, distance, layerMask))
+            if (Physics.SphereCast(pos, radius, forward, out var hitInfo, distance))
             {
+                if (hitInfo.collider.gameObject.layer != LayerID.TerrainCollider)
+                {
+                    serializedNodes[i] = node;
+                    continue;
+                }
+
                 detectedCollision = true;
                 node.returnDistance = hitInfo.distance;
                 if(hitInfo.distance < distance / 4f)
                 {
                     enableWarningUI = true;
                 }
-
+                
                 if(hitInfo.distance < closestDistance || closestDistance == NO_COLLISION)
                 {
                     closestDistance = hitInfo.distance;
