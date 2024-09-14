@@ -1,4 +1,5 @@
-﻿using SubLibrary.Materials;
+﻿using SubLibrary.Audio;
+using SubLibrary.Materials;
 using SubLibrary.Monobehaviors;
 using SubLibrary.SaveData;
 using UnityEngine;
@@ -23,7 +24,6 @@ internal class AddSubScripts : MonoBehaviour
         var glassApplier = gameObject.AddComponent<SkyApplier>();
         var worldForces = gameObject.EnsureComponent<WorldForces>();
         var lightingController = gameObject.EnsureComponent<LightingController>();
-        var skyManager = gameObject.EnsureComponent<SubSkyManager>();
         var lod = gameObject.EnsureComponent<BehaviourLOD>();
         var mixin = gameObject.EnsureComponent<LiveMixin>();
         gameObject.EnsureComponent<Stabilizer>();
@@ -42,6 +42,9 @@ internal class AddSubScripts : MonoBehaviour
         gameObject.EnsureComponent<DealDamageOnImpact>();
         gameObject.EnsureComponent<OxygenManager>();
         var serializationManager = gameObject.EnsureComponent<SubSerializationManager>();
+        gameObject.EnsureComponent<SubAudioLoader>();
+        var skyManager = gameObject.EnsureComponent<SubSkyManager>();
+
         gameObject.AddComponent<RemoveBangsFromSmallFish>();
 
         subRoot.rb = rb;
