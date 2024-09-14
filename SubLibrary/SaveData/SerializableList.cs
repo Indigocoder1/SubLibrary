@@ -12,7 +12,7 @@ internal class SerializableList<T> : IList<T>, ICollection<T>, IEnumerable<T>
     {
         get
         {
-            if(_serializedItems == null)
+            if (_serializedItems == null)
             {
                 _serializedItems = new List<T>();
 

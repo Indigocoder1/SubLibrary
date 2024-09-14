@@ -67,14 +67,14 @@ internal class SubProximitySensors : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy) return;
 
-        if(mode == Player.Mode.Piloting)
+        if (mode == Player.Mode.Piloting)
         {
             Invoke(nameof(CheckForCollision), sensorDelay);
             return;
         }
 
         CancelInvoke();
-        if(uiWarningPanel.GetBool(animatorActiveBoolName))
+        if (uiWarningPanel.GetBool(animatorActiveBoolName))
         {
             uiWarningPanel.SetBool(animatorActiveBoolName, false);
             uiWarningIcon.SetActive(false);
@@ -92,15 +92,15 @@ internal class SubProximitySensors : MonoBehaviour
         float pingSoundReduction = 15f;
         bool enableWarningUI = false;
 
-        if(motorMode.engineOn)
+        if (motorMode.engineOn)
         {
             RunSphereCasts(ref closestDistance, ref pingSoundReduction, out enableWarningUI);
         }
 
         if (closestDistance != NO_COLLISION)
         {
-            pingInterval = closestDistance / pingSoundReduction + 0.2f;
-            if(!IsInvoking(nameof(PlayPingSound)))
+            pingInterval = (closestDistance / pingSoundReduction) + 0.2f;
+            if (!IsInvoking(nameof(PlayPingSound)))
             {
                 Invoke(nameof(PlayPingSound), pingInterval);
             }
@@ -112,15 +112,15 @@ internal class SubProximitySensors : MonoBehaviour
         }
 
         float nextSensorDelay = sensorDelay;
-        if(detectedCollision && motorMode.engineOn)
+        if (detectedCollision && motorMode.engineOn)
         {
-            if(!uiWarningPanel.GetBool(animatorActiveBoolName))
+            if (!uiWarningPanel.GetBool(animatorActiveBoolName))
             {
                 uiWarningPanel.SetBool(animatorActiveBoolName, true);
             }
             nextSensorDelay *= 0.25f;
         }
-        else if(uiWarningPanel.GetBool(animatorActiveBoolName))
+        else if (uiWarningPanel.GetBool(animatorActiveBoolName))
         {
             uiWarningPanel.SetBool(animatorActiveBoolName, false);
         }
@@ -166,18 +166,18 @@ internal class SubProximitySensors : MonoBehaviour
 
                 detectedCollision = true;
                 node.returnDistance = hitInfo.distance;
-                if(hitInfo.distance < distance / 4f)
+                if (hitInfo.distance < distance / 4f)
                 {
                     enableWarningUI = true;
                 }
-                
-                if(hitInfo.distance < closestDistance || closestDistance == NO_COLLISION)
+
+                if (hitInfo.distance < closestDistance || closestDistance == NO_COLLISION)
                 {
                     closestDistance = hitInfo.distance;
                     pingSoundReduction = distance;
                 }
             }
-            
+
             serializedNodes[i] = node;
         }
     }

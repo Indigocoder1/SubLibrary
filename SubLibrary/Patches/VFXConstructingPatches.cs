@@ -9,7 +9,7 @@ internal class VFXConstructingPatches
     [HarmonyPatch(nameof(VFXConstructing.Construct)), HarmonyPostfix]
     private static void Construct_Postfix(VFXConstructing __instance)
     {
-        if(__instance is CustomSubVFXConstructing customConstructing)
+        if (__instance is CustomSubVFXConstructing customConstructing)
         {
             customConstructing.onConstructionStarted?.Invoke();
         }

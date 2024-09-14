@@ -22,7 +22,7 @@ public class ApplySNFont : MonoBehaviour
                 GetComponentsInChildren<TextMeshProUGUI>(true).ForEach(t => t.font = FontUtils.Aller_Rg);
                 break;
         }
-        
+
     }
 
     private enum ApplicationMode

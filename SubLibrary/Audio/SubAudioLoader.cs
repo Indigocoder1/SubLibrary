@@ -1,10 +1,8 @@
 ﻿using FMOD;
 using Nautilus.Handlers;
 using Nautilus.Utility;
-using SubLibrary.SaveData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -26,7 +24,7 @@ public class SubAudioLoader : MonoBehaviour
     {
         get
         {
-            if(_serializedAudioDatas == null)
+            if (_serializedAudioDatas == null)
             {
                 _serializedAudioDatas = new();
 
@@ -76,7 +74,7 @@ public class SubAudioLoader : MonoBehaviour
         EnsureBusPaths();
 
         object[] allGOs = bundle.LoadAllAssets(typeof(GameObject));
-        foreach(var gameObject in allGOs)
+        foreach (var gameObject in allGOs)
         {
             if (gameObject is not GameObject) continue;
 

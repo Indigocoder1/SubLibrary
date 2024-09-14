@@ -70,7 +70,7 @@ internal class AddSubScripts : MonoBehaviour
         noiseManager.cyclopsMotorMode = motorMode;
         noiseManager.subControl = subControl;
 
-        if(vfxConstructing.disableBehaviours == null)
+        if (vfxConstructing.disableBehaviours == null)
         {
             vfxConstructing.disableBehaviours = new();
         }
@@ -90,7 +90,7 @@ internal class AddSubScripts : MonoBehaviour
 
     private void Update()
     {
-        if(destroy)
+        if (destroy)
         {
             DestroyImmediate(this);
         }
