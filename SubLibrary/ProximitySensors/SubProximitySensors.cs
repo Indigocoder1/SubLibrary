@@ -16,6 +16,11 @@ internal class SubProximitySensors : MonoBehaviour
     [Tooltip("How long between each proximity check; reduced by 75% when an object is detected")]
     [SerializeField] private float sensorDelay = 1f;
 
+    [Header("Gizmos")]
+    [SerializeField] private bool drawGizmos;
+    [SerializeField] private bool alwaysDrawGizmos;
+    [SerializeField] private Color gizmoColor;
+
     [SerializeField, HideInInspector] private GameObject[] warningDots;
     [SerializeField, HideInInspector] private Transform[] sensorProbes;
     [SerializeField, HideInInspector] private float[] sphereRadi;
@@ -174,6 +179,48 @@ internal class SubProximitySensors : MonoBehaviour
             }
             
             serializedNodes[i] = node;
+        }
+    }
+
+    private Mesh capsuleMesh;
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!drawGizmos) return;
+
+        if (alwaysDrawGizmos) return;
+
+        DrawFromGizmos();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!drawGizmos) return;
+
+        if (!alwaysDrawGizmos) return;
+
+        DrawFromGizmos();
+    }
+
+    private void DrawFromGizmos()
+    {
+        if (capsuleMesh == null)
+        {
+            var capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            capsuleMesh = capsule.GetComponent<MeshFilter>().mesh;
+
+            DestroyImmediate(capsule);
+        }
+
+        Gizmos.color = gizmoColor;
+        foreach (var node in sensorNodes)
+        {
+            Vector3 scale = new Vector3(node.sphereCheckRadius * 2, node.checkTravelDistance * 2, node.sphereCheckRadius * 2);
+            Quaternion rotation = Quaternion.LookRotation(node.sensorProbe.up, node.sensorProbe.forward);
+
+            Vector3 position = node.sensorProbe.position + (node.sensorProbe.forward * scale.y);
+
+            Gizmos.DrawWireMesh(capsuleMesh, position, rotation, scale);
         }
     }
 
