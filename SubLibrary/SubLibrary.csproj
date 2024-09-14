@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<AssemblyName>SubLibrary</AssemblyName>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
 	<RootNamespace>SubLibrary</RootNamespace>
@@ -30,10 +30,14 @@
     <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Added sky manager
-Added proximity sensors system
-Fixed floodlight marker not being able to be added as a component
-Fixed OnTakeFireDamage call not reaching the HUD manager</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed various bugs
+Added sky manager for assigning sky appliers
+Added proximity sensors
+Added script adder for quick prefab setup
+Added audio loader (Requires manual calling in plugin)
+Added SN layer applier
+Added SN shader applier
+Added the option to remove bang sounds with a customizable minimum mass</PackageReleaseNotes>
 
 </PropertyGroup>
 
