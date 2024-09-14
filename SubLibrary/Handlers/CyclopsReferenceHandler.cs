@@ -27,9 +27,9 @@ public static class CyclopsReferenceHandler
         yield return new WaitUntil(() => loaded);
     }
 
-    private static void OnPrefabLoaded(GameObject gameoObject)
+    private static void OnPrefabLoaded(GameObject gameObject)
     {
-        CyclopsReference = gameoObject;
+        CyclopsReference = gameObject;
         loaded = true;
     }
 }

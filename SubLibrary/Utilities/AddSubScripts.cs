@@ -42,6 +42,7 @@ internal class AddSubScripts : MonoBehaviour
         gameObject.EnsureComponent<DealDamageOnImpact>();
         gameObject.EnsureComponent<OxygenManager>();
         var serializationManager = gameObject.EnsureComponent<SubSerializationManager>();
+        gameObject.AddComponent<RemoveBangsFromSmallFish>();
 
         subRoot.rb = rb;
         subRoot.lightControl = lightingController;
