@@ -207,7 +207,7 @@ internal class SubProximitySensors : MonoBehaviour
         if (capsuleMesh == null)
         {
             var capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            capsuleMesh = capsule.GetComponent<MeshFilter>().mesh;
+            capsuleMesh = capsule.GetComponent<MeshFilter>().sharedMesh;
 
             DestroyImmediate(capsule);
         }
