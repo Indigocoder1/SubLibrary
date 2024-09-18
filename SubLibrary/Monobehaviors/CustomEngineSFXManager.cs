@@ -4,8 +4,7 @@ namespace SubLibrary.Monobehaviors;
 
 internal class CustomEngineSFXManager : EngineRpmSFXManager
 {
-    // Called via a patch in EngineRpmSFXManager.Update
-    public void OverrideUpdate()
+    public void Update()
     {
         HandleRevUp();
         HandleRampUpDown();
