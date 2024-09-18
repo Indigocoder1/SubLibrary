@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SubLibrary.Audio;
 
 [CreateAssetMenu(fileName = "CustomFMODAsset", menuName = "Subnautica/Create FMOD Asset")]
-internal class CustomFMODAsset : FMODAsset
+public class CustomFMODAsset : FMODAsset
 {
     private void OnEnable()
     {
@@ -13,6 +13,7 @@ internal class CustomFMODAsset : FMODAsset
     }
 
     public AudioClip audioClip;
+    public bool doNotAutoRegister;
     public MODE mode = AudioUtils.StandardSoundModes_3D;
     public float maxDistance3D;
     public float minDistance3D;

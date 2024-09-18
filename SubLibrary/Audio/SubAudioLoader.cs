@@ -20,11 +20,15 @@ public class SubAudioLoader : MonoBehaviour
     {
         foreach (var asset in bundle.LoadAllAssets<CustomFMODAsset>())
         {
-            var sound = CustomSoundHandler.RegisterCustomSound(asset.name, asset.audioClip, asset.GetBus(), asset.mode);
-            if(asset.minDistance3D > 0 ||  asset.maxDistance3D > 0)
+            if (asset.doNotAutoRegister) continue;
+
+            string id = asset.id == string.Empty ? asset.path : asset.id;
+            var sound = AudioUtils.CreateSound(asset.audioClip, asset.mode);
+            if (asset.minDistance3D > 0 || asset.maxDistance3D > 0)
             {
                 sound.set3DMinMaxDistance(asset.minDistance3D, asset.maxDistance3D);
             }
+            CustomSoundHandler.RegisterCustomSound(asset.path, sound, asset.GetBus());
         }
     }
 }
