@@ -6,15 +6,19 @@ namespace SubLibrary.Monobehaviors;
 
 internal class CustomEngineSFXManager : EngineRpmSFXManager
 {
-    [Tooltip("What volume to be at given a normalized speed value")]
+    [Tooltip("What volume to be set at a normalized speed value")]
     [SerializeField] private AnimationCurve volumeOverSpeed;
+    [Tooltip("What pitch to be set at a normalized speed value")]
+    [SerializeField] private AnimationCurve pitchOverSpeed;
 
     private Channel loopingChannel;
     private bool foundChannel;
 
     private void Start()
     {
+        engineRpmSFX.Play();
         foundChannel = CustomSoundHandler.TryGetCustomSoundChannel(engineRpmSFX.GetInstanceID(), out loopingChannel);
+        engineRpmSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         if (foundChannel)
         {
@@ -75,9 +79,11 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
             engineRpmSFX.Stop();
         }
 
-        if (!foundChannel) return;
+        // The channel has to be updated every frame for some reason
+        if (!CustomSoundHandler.TryGetCustomSoundChannel(engineRpmSFX.GetInstanceID(), out loopingChannel)) return;
 
-        float volume = volumeOverSpeed.Evaluate(rpmSpeed / topClampSpeed);
+        float normalizedSpeed = rpmSpeed / topClampSpeed;
+        float volume = volumeOverSpeed.Evaluate(normalizedSpeed);
         loopingChannel.setVolume(volume);
 
         if (Mathf.Approximately(rpmSpeed, 0f))
@@ -86,8 +92,7 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
             loopingChannel.setPitch(Mathf.MoveTowards(currentPitch, 0, Time.deltaTime * rampDownSpeed));
         }
 
-        float targetPitch = rpmSpeed / (rpmSpeed * 0.6f) * 2;
-
+        float targetPitch = pitchOverSpeed.Evaluate(normalizedSpeed);
         targetPitch = Mathf.Clamp(targetPitch, 0.52f, 1.5f);
         loopingChannel.setPitch(targetPitch);
     }
