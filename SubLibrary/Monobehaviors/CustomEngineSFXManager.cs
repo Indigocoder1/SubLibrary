@@ -11,6 +11,9 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
     [Tooltip("What pitch to be set at a normalized speed value")]
     [SerializeField] private AnimationCurve pitchOverSpeed;
 
+    [SerializeField] private bool playLoopSFXWhenNotMoving;
+
+    private CyclopsMotorMode motorMode;
     private Channel loopingChannel;
     private bool foundChannel;
 
@@ -19,6 +22,8 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
         engineRpmSFX.Play();
         foundChannel = CustomSoundHandler.TryGetCustomSoundChannel(engineRpmSFX.GetInstanceID(), out loopingChannel);
         engineRpmSFX.Stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
+        motorMode = GetComponentInParent<CyclopsMotorMode>();
 
         if (foundChannel)
         {
@@ -70,11 +75,11 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
 
     private void HandleLoopingSFX()
     {
-        if(rpmSpeed > 0f)
+        if(rpmSpeed > 0f || (playLoopSFXWhenNotMoving && !engineRpmSFX.playing && motorMode.engineOn))
         {
             engineRpmSFX.Play();
         }
-        else
+        else if ((!playLoopSFXWhenNotMoving && rpmSpeed <= 0) || (playLoopSFXWhenNotMoving && !motorMode.engineOn))
         {
             engineRpmSFX.Stop();
         }
@@ -93,7 +98,11 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
         }
 
         float targetPitch = pitchOverSpeed.Evaluate(normalizedSpeed);
-        targetPitch = Mathf.Clamp(targetPitch, 0.52f, 1.5f);
+        if (targetPitch < 0.52f || targetPitch > 1.5f)
+        {
+            Plugin.Logger.LogWarning($"Pitch on {gameObject} is exceeding the recommended values of min 0.52, max 1.5 at {targetPitch}");
+        }
+
         loopingChannel.setPitch(targetPitch);
     }
 }
