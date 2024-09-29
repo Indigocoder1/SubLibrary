@@ -46,6 +46,7 @@ internal class AddSubScripts : MonoBehaviour
         var skyManager = gameObject.EnsureComponent<SubSkyManager>();
 
         gameObject.AddComponent<RemoveBangsFromSmallFish>();
+        gameObject.AddComponent<OnTakeDamageRelay>();
 
         subRoot.rb = rb;
         subRoot.lightControl = lightingController;
