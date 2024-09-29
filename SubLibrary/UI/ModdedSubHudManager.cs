@@ -137,8 +137,12 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
         CancelInvoke(nameof(ClearCreatureWarning));
         Invoke(nameof(ClearCreatureWarning), 10f);
         creatureAttackWarning = true;
-        creatureDamagesSFX.Play();
         MainCameraControl.main.ShakeCamera(1.5f);
+        
+        if(creatureDamagesSFX.gameObject.activeSelf)
+        {
+            creatureDamagesSFX.Play();
+        }
     }
 
     private void OnTakeCollisionDamage(float value)
