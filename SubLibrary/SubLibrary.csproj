@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<AssemblyName>SubLibrary</AssemblyName>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
 	<RootNamespace>SubLibrary</RootNamespace>
@@ -30,14 +30,11 @@
     <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Fixed various bugs
-Added sky manager for assigning sky appliers
-Added proximity sensors
-Added script adder for quick prefab setup
-Added audio loader (Requires manual calling in plugin)
-Added SN layer applier
-Added SN shader applier
-Added the option to remove bang sounds with a customizable minimum mass</PackageReleaseNotes>
+    <PackageReleaseNotes>Added OnTakeDamage relay
+Added camera shake on take damage
+Added custom engine SFX manager
+Reworked audio loading to allow for more customizability without leaving Unity
+Bug fixes</PackageReleaseNotes>
 
 </PropertyGroup>
 
