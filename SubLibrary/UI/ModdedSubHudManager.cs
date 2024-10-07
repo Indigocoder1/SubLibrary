@@ -14,6 +14,10 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
     [SerializeField] private FMOD_CustomEmitter creatureDamagesSFX;
     [SerializeField] private CyclopsNoiseManager noiseManager;
 
+    [Header("Damage Thresholds")]
+    [SerializeField] private float minCollisionDamageForHUDShake;
+    // COME BACK TO THIS LATER THIS STUFF SHOULD *NOT* BE IN HERE!
+
     private bool hudActive;
     private bool creatureAttackWarning;
     private bool fireWarning;
@@ -147,6 +151,8 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
 
     private void OnTakeCollisionDamage(float value)
     {
+        if (value < minCollisionDamageForHUDShake) return;
+
         value *= 1.5f;
         value = Mathf.Clamp(value / 100f, 0.5f, 1.5f);
         MainCameraControl.main.ShakeCamera(value, -1f, MainCameraControl.ShakeMode.Linear, 1f);
