@@ -42,6 +42,10 @@ internal class SubSkyManager : PrefabModifier, ICyclopsReferencer
 
             list.Add(renderer);
         }
+
+        exteriorSkyApplier.renderers = _exteriorRenderers.ToArray();
+        interiorSkyApplier.renderers = _interiorRenderers.ToArray();
+        windowSkyApplier.renderers = _windowRenderers.ToArray();
     }
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)
