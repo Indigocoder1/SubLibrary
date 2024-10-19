@@ -119,7 +119,7 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
 
     public void OnTakeDamage(DamageInfo damageInfo)
     {
-        if (damageInfo.type == DamageType.Normal || damageInfo.type == DamageType.Electrical)
+        if (damageInfo.dealer != null && damageInfo.dealer.CompareTag("Creature"))
         {
             OnTakeCreatureDamage();
         }
