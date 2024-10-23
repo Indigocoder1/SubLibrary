@@ -75,7 +75,7 @@ internal class CustomEngineSFXManager : EngineRpmSFXManager
 
     private void HandleLoopingSFX()
     {
-        if(rpmSpeed > 0f || (playLoopSFXWhenNotMoving && !engineRpmSFX.playing && motorMode.engineOn))
+        if (rpmSpeed > 0f || (playLoopSFXWhenNotMoving && !engineRpmSFX.playing && motorMode.engineOn))
         {
             engineRpmSFX.Play();
         }

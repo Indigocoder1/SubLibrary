@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace SubLibrary.Materials;
 
+// Deprecated whenever Nautilus decides to release Pre.33
 public class MaterialSetter : MonoBehaviour
 {
     [SerializeField] private MaterialMode mode;
