@@ -10,7 +10,7 @@ public class GenerateDistanceField : MonoBehaviour
     public DistanceField distanceField;
     public float pixelsPerUnit;
 
-    //Too lazy to make a custom editor for this
+    // Too lazy to make a custom editor for this
     [Header("Bake")]
     public bool generateTexture;
 
