@@ -87,6 +87,12 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
 
     public void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
+        if (saveData is not ModuleDataClass)
+        {
+            Plugin.Logger.LogError($"Save data class retrieved from {serializationManager} does not inherit from ModuleDataClass, but has an upgrade console as a child! ({gameObject})");
+            return;
+        }
+
         if (!(saveData as ModuleDataClass).modules.TryGetValue(gameObject.name, out var value)) return;
 
         StartCoroutine(SpawnSavedModules(value));
@@ -121,6 +127,13 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
             newModules.Add(item.Key, item.Value != null ? item.Value.item.GetTechType() : TechType.None);
         }
 
-        (saveData as ModuleDataClass).modules[gameObject.name] = newModules;
+        if (saveData is ModuleDataClass)
+        {
+            (saveData as ModuleDataClass).modules[gameObject.name] = newModules;
+        }
+        else
+        {
+            Plugin.Logger.LogError($"Save data class retrieved from {serializationManager} does not inherit from ModuleDataClass, but has an upgrade console as a child! ({gameObject})");
+        }
     }
 }
