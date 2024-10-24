@@ -13,7 +13,8 @@ public class ModuleFunctionalityHandler : MonoBehaviour
 {
     public static Dictionary<TechType, Type> ModuleFunctions = new();
 
-    [SerializeField, Tooltip("The GameObject on which module function components will be placed")] private GameObject moduleFunctionsRoot;
+    [Tooltip("The GameObject on which module function components will be placed. Should have a child object identifier")]
+    [SerializeField] private GameObject moduleFunctionsRoot;
     [SerializeField] private ModdedUpgradeConsole[] upgradeConsoles;
 
     private void Start()
