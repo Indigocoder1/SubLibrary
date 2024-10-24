@@ -35,7 +35,7 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
         }
     }
 
-    private void InitializeModules()
+    protected virtual void InitializeModules()
     {
         modules = new Equipment(gameObject, modulesRoot.transform);
         modules.SetLabel(equipmentTextKey);
@@ -85,7 +85,7 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
         main.SetIcon(HandReticle.IconType.Hand, 1f);
     }
 
-    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    public virtual void OnSaveDataLoaded(BaseSubDataClass saveData)
     {
         if (saveData is not ModuleDataClass)
         {
@@ -118,8 +118,13 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
         }
     }
 
-    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    public virtual void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
+        if (saveData is not ModuleDataClass)
+        {
+            Plugin.Logger.LogError($"Save data class retrieved from {serializationManager} does not inherit from ModuleDataClass, but has an upgrade console as a child! ({gameObject})");
+        }
+
         var newModules = new Dictionary<string, TechType>();
 
         foreach (var item in modules.equipment)
@@ -127,13 +132,6 @@ public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
             newModules.Add(item.Key, item.Value != null ? item.Value.item.GetTechType() : TechType.None);
         }
 
-        if (saveData is ModuleDataClass)
-        {
-            (saveData as ModuleDataClass).modules[gameObject.name] = newModules;
-        }
-        else
-        {
-            Plugin.Logger.LogError($"Save data class retrieved from {serializationManager} does not inherit from ModuleDataClass, but has an upgrade console as a child! ({gameObject})");
-        }
+        (saveData as ModuleDataClass).modules[gameObject.name] = newModules;
     }
 }
