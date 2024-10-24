@@ -30,7 +30,7 @@ public class ModuleFunctionalityHandler : MonoBehaviour
     /// </summary>
     /// <param name="moduleTechType">The tech type for your module item</param>
     /// <param name="behaviorComponentType">The type of your custom behavior component. Must inherit from <see cref="MonoBehaviour"/></param>
-    public void RegisterModuleFunctions(TechType moduleTechType, Type behaviorComponentType)
+    public static void RegisterModuleFunctions(TechType moduleTechType, Type behaviorComponentType)
     {
         ModuleFunctions.Add(moduleTechType, behaviorComponentType);
     }
@@ -39,7 +39,7 @@ public class ModuleFunctionalityHandler : MonoBehaviour
     /// Registers all classes in the given assembly using the <see cref="ModdedSubModuleAttribute"/> to the <see cref="ModuleFunctions"/> dictionary.
     /// </summary>
     /// <param name="assembly">Your mod's assembly</param>
-    public void RegisterModuleFunction(Assembly assembly)
+    public static void RegisterModuleFunction(Assembly assembly)
     {
         foreach (var type in assembly.GetTypes())
         {
