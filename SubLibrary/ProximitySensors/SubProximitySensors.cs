@@ -19,7 +19,7 @@ internal class SubProximitySensors : MonoBehaviour
     [Header("Gizmos")]
     [SerializeField] private bool drawGizmos;
     [SerializeField] private bool alwaysDrawGizmos;
-    [SerializeField] private Color gizmoColor;
+    [SerializeField] private Color gizmoColor = Color.cyan;
 
     [SerializeField, HideInInspector] private GameObject[] warningDots;
     [SerializeField, HideInInspector] private Transform[] sensorProbes;
