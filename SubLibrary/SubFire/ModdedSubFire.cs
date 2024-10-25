@@ -34,6 +34,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     private int oldFireCount;
     private int engineOverheatValue;
     private bool fireSuppressionActive;
+    private bool isSubDead;
     private CyclopsSmokeScreenFXController smokeController;
     private SubRoom currentSubRoom;
 
@@ -69,6 +70,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
     private void Update()
     {
+        if (isSubDead) return;
         if (LOD.IsMinimal()) return;
 
         float smokeValue = subRooms.FirstOrDefault(i => i == currentSubRoom).smokeValue;
@@ -387,6 +389,8 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
         smokeImposterRenderers.ForEach(r => r.gameObject.SetActive(false));
         fireMusic.Stop();
         CancelInvoke();
+
+        isSubDead = true;
     }
 
     private void OnDestroy()
