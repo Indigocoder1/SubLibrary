@@ -53,6 +53,7 @@ internal class AddSubScripts : MonoBehaviour
         subRoot.noiseManager = noiseManager;
         subRoot.powerRelay = relay;
         subRoot.LOD = lod;
+        subRoot.worldForces = worldForces;
 
         lwe.cellLevel = LargeWorldEntity.CellLevel.Global;
 
