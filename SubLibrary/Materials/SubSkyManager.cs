@@ -10,6 +10,7 @@ namespace SubLibrary.Materials;
 
 internal class SubSkyManager : PrefabModifier, ICyclopsReferencer
 {
+    public SubRoot subRoot;
     public SkyApplier exteriorSkyApplier;
     public SkyApplier interiorSkyApplier;
     public SkyApplier windowSkyApplier;
@@ -74,5 +75,8 @@ internal class SubSkyManager : PrefabModifier, ICyclopsReferencer
                 }
             };
         }
+
+        subRoot.interiorSky = skyBaseInterior;
+        subRoot.glassSky = skyBaseGlass;
     }
 }

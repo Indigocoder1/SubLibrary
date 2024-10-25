@@ -91,6 +91,7 @@ internal class AddSubScripts : MonoBehaviour
         skyManager.interiorSkyApplier = interiorApplier;
         skyManager.windowSkyApplier = glassApplier;
         skyManager.lightingController = lightingController;
+        skyManager.subRoot = subRoot;
 
         destroy = true;
     }
