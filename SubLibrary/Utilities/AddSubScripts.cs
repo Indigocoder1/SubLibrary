@@ -64,6 +64,8 @@ internal class AddSubScripts : MonoBehaviour
         subControl.powerRelay = relay;
         subControl.LOD = lod;
 
+        relay.dontConnectToRelays = true;
+
         notificationManager.subRoot = subRoot;
         crushDamage.liveMixin = mixin;
 
