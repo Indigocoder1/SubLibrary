@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using SubLibrary.SaveData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace SubLibrary.SubFire;
 
-public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
+public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener
 {
     [SerializeField, Tooltip("Should have multiple \"SubRoom\"s as children for fire spreading")] private Transform fireSpawnsRoot;
     [SerializeField] private LiveMixin liveMixin;
@@ -38,29 +39,27 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     private CyclopsSmokeScreenFXController smokeController;
     private SubRoom currentSubRoom;
 
-    [NonSerialized, ProtoMember(1)] public int fireCount;
-    [NonSerialized, ProtoMember(2)] public float currentSmokeVal;
+    public int fireCount;
+    public float currentSmokeVal;
 
     private List<SubRoom> subRooms = new();
+    private PrefabIdentifier identifier;
+
+    private void Awake()
+    {
+        identifier = GetComponentInParent<PrefabIdentifier>();
+        smokeController = MainCamera.camera.GetComponent<CyclopsSmokeScreenFXController>();
+    }
 
     private void Start()
     {
         subRooms = fireSpawnsRoot.GetComponentsInChildren<SubRoom>().ToList();
 
-        smokeController = MainCamera.camera.GetComponent<CyclopsSmokeScreenFXController>();
         smokeController.intensity = currentSmokeVal;
         Color col = smokeImpostorColor;
         col.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
         smokeImposterRenderers.ForEach(r => r.material.SetColor(ShaderPropertyID._Color, col));
-        if (fireCount > 0)
-        {
-            for (int i = 0; i < fireCount; i++)
-            {
-                SubRoom room = subRooms[Random.Range(0, subRooms.Count)];
-                CreateFire(room);
-            }
-        }
-
+        
         currentSubRoom = engineRoom;
 
         InvokeRepeating(nameof(SmokeSimulation), 3f, 3f);
@@ -157,7 +156,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
         float damage = fireCount * 15f;
         liveMixin.TakeDamage(damage, type: DamageType.Fire);
-        subRoot.BroadcastMessage("OnTakeFireDamage", SendMessageOptions.DontRequireReceiver);
+        subRoot.BroadcastMessage("OnTakeFireDamage");
         oldFireCount = fireCount;
     }
 
@@ -231,7 +230,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
         fireSuppressionActive = true;
         subRoot.fireSuppressionState = true;
-        subRoot.BroadcastMessage("NewAlarmState", SendMessageOptions.DontRequireReceiver);
+        subRoot.BroadcastMessage("NewAlarmState");
         InvokeRepeating(nameof(FireSuppressionIteration), 0f, 2f);
         Invoke(nameof(CancelFireSuppression), fireSuppressionSystemDuration);
 
@@ -256,7 +255,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     {
         fireSuppressionActive = false;
         subRoot.fireSuppressionState = false;
-        subRoot.BroadcastMessage("NewAlarmState", null, SendMessageOptions.DontRequireReceiver);
+        subRoot.BroadcastMessage("NewAlarmState");
         CancelInvoke(nameof(FireSuppressionIteration));
     }
 
@@ -283,7 +282,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
 
         if (numFires == 0)
         {
-            BroadcastMessage("ClearFireWarning", SendMessageOptions.DontRequireReceiver);
+            BroadcastMessage("ClearFireWarning");
         }
 
         return numFires;
@@ -396,5 +395,30 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage
     private void OnDestroy()
     {
         smokeImposterRenderers.ForEach(r => Destroy(r.material));
+    }
+
+    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    {
+        fireCount = saveData.fireValues[identifier.Id].fireCount;
+        currentSmokeVal = saveData.fireValues[identifier.Id].smokeVal;
+
+        if (fireCount > 0)
+        {
+            for (int i = 0; i < fireCount; i++)
+            {
+                SubRoom room = subRooms[Random.Range(0, subRooms.Count)];
+                CreateFire(room);
+            }
+        }
+    }
+
+    public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
+    {
+        if (!saveData.fireValues.ContainsKey(identifier.Id))
+        {
+            saveData.fireValues.Add(identifier.Id, default);
+        }
+
+        saveData.fireValues[identifier.Id] = (fireCount, currentSmokeVal);
     }
 }
