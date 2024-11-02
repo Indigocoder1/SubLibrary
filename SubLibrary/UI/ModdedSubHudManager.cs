@@ -37,6 +37,7 @@ internal class ModdedSubHudManager : MonoBehaviour, IOnTakeDamage
     {
         canvasGroup.alpha = 0;
         uiElements = GetComponentsInChildren<IUIElement>(true).ToList();
+        subRoot.BroadcastMessage("NewAlarmState", SendMessageOptions.DontRequireReceiver);
     }
 
     private void Update()
