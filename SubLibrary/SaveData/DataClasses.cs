@@ -9,7 +9,7 @@ public abstract class BaseSubDataClass
     /// <summary>
     /// The fire values for a sub
     /// </summary>
-    internal Dictionary<string, (int fireCount, float smokeVal)> fireValues = new();
+    public Dictionary<string, (int fireCount, float smokeVal)> fireValues = new();
 }
 
 public class ModuleDataClass : BaseSubDataClass

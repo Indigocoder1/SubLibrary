@@ -9,9 +9,10 @@ using Random = UnityEngine.Random;
 
 namespace SubLibrary.SubFire;
 
-public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener
+public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, ILateSaveDataListener
 {
     [SerializeField, Tooltip("Should have multiple \"SubRoom\"s as children for fire spreading")] private Transform fireSpawnsRoot;
+    [SerializeField] private PrefabIdentifier identifier;
     [SerializeField] private LiveMixin liveMixin;
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private CyclopsExternalCams externalCams;
@@ -43,18 +44,16 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener
     public float currentSmokeVal;
 
     private List<SubRoom> subRooms = new();
-    private PrefabIdentifier identifier;
 
     private void Awake()
     {
-        identifier = GetComponentInParent<PrefabIdentifier>();
         smokeController = MainCamera.camera.GetComponent<CyclopsSmokeScreenFXController>();
+
+        subRooms = fireSpawnsRoot.GetComponentsInChildren<SubRoom>().ToList();
     }
 
     private void Start()
     {
-        subRooms = fireSpawnsRoot.GetComponentsInChildren<SubRoom>().ToList();
-
         smokeController.intensity = currentSmokeVal;
         Color col = smokeImpostorColor;
         col.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
@@ -397,8 +396,13 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener
         smokeImposterRenderers.ForEach(r => Destroy(r.material));
     }
 
-    public void OnSaveDataLoaded(BaseSubDataClass saveData)
+    public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
     {
+        if (saveData == null)
+        {
+            saveData = new ModuleDataClass();
+        }
+
         fireCount = saveData.fireValues[identifier.Id].fireCount;
         currentSmokeVal = saveData.fireValues[identifier.Id].smokeVal;
 
@@ -407,13 +411,21 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener
             for (int i = 0; i < fireCount; i++)
             {
                 SubRoom room = subRooms[Random.Range(0, subRooms.Count)];
+                room.smokeValue = currentSmokeVal / fireCount;
                 CreateFire(room);
             }
         }
     }
 
+    public void OnSaveDataLoaded(BaseSubDataClass saveData) { }
+
     public void OnBeforeDataSaved(ref BaseSubDataClass saveData)
     {
+        if (saveData == null)
+        {
+            saveData = new ModuleDataClass();
+        }
+
         if (!saveData.fireValues.ContainsKey(identifier.Id))
         {
             saveData.fireValues.Add(identifier.Id, default);
