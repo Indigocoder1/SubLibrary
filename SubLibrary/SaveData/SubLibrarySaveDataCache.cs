@@ -8,9 +8,4 @@ namespace SubLibrary.SaveData;
 internal class SubLibrarySaveDataCache : SaveDataCache
 {
     public Dictionary<string, SubSaveData> saves = new();
-
-    public SubLibrarySaveDataCache()
-    {
-
-    }
 }
