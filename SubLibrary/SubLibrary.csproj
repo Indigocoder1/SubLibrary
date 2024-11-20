@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<AssemblyName>SubLibrary</AssemblyName>
-    <Version>1.3.0</Version>
+    <Version>1.4.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
 	<RootNamespace>SubLibrary</RootNamespace>
@@ -30,11 +30,14 @@
     <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Added OnTakeDamage relay
-Added camera shake on take damage
-Added custom engine SFX manager
-Reworked audio loading to allow for more customizability without leaving Unity
-Bug fixes</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed SkyManager not applying renderers
+Added more available overrides to ModdedUpgradeConsole
+Added defauly proxy sensor gizmo color
+Added sub dead check to fire sim
+Defaulted dontConnectToRelays to true
+Added multiple auto references in AddSubScripts
+Proper fire state saving
+Many "Apply___" scripts are now obsolete due to Nautilus pre.33</PackageReleaseNotes>
 
 </PropertyGroup>
 
