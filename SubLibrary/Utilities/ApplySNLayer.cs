@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace SubLibrary.Utilities;
 
+[Obsolete("Use Nautilus's ApplySNLayer class instead")]
 internal class ApplySNLayer : MonoBehaviour
 {
     [SerializeField] private LayerName layerName;

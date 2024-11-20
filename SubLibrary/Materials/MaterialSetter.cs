@@ -1,12 +1,13 @@
 ﻿using Nautilus.Utility;
 using SubLibrary.Handlers;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SubLibrary.Materials;
 
-// Deprecated whenever Nautilus decides to release Pre.33
+[Obsolete("Use Nautilus's ApplySNMaterial class instead")]
 public class MaterialSetter : MonoBehaviour
 {
     [SerializeField] private MaterialMode mode;

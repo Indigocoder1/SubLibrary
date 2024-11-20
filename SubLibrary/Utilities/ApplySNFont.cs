@@ -1,9 +1,11 @@
 ﻿using Nautilus.Utility;
+using System;
 using TMPro;
 using UnityEngine;
 
 namespace SubLibrary.Utilities;
 
+[Obsolete("Use Nautilus's ApplySNFont class instead")]
 public class ApplySNFont : MonoBehaviour
 {
     [SerializeField] private ApplicationMode applicationMode;

@@ -1,9 +1,10 @@
 ﻿using Nautilus.Utility;
+using System;
 using UnityEngine;
 
 namespace SubLibrary.Materials;
 
-// Deprecated whenever Nautilus decides to release Pre.33
+[Obsolete("Use Nautilus's ApplySNShaders class instead")]
 internal class ApplySNShaders : MonoBehaviour
 {
     [SerializeField] private GameObject applyTo;
