@@ -6,7 +6,7 @@ To use the library, you will need to add it to your Unity project that is using 
 
 The components you need will depend on the sub you are making, but some of the more versatile components are the ``Spawn____`` ones, which spawn and assign elements of the Cyclops to your sub.
 
-For more extensive documentation, refer to this link: https://github.com/Indigocoder1/SubLibrary/tree/main
+For more extensive documentation, refer to this link: [https://github.com/Indigocoder1/SubLibrary/tree/main](https://github.com/Indigocoder1/SubLibrary/wiki/Introduction-to-Sub-Library)
 
 ## When forking/modifying the repo:
 
