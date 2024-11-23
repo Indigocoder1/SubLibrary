@@ -2,7 +2,7 @@
 
 namespace SubLibrary.Materials.Tags;
 
-internal class SubWindowTag : MonoBehaviour
+public class SubWindowTag : MonoBehaviour
 {
 
 }

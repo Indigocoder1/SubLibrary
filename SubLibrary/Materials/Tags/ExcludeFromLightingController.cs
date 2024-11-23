@@ -2,7 +2,7 @@
 
 namespace SubLibrary.Materials.Tags;
 
-internal class ExcludeFromLightingController : MonoBehaviour
+public class ExcludeFromLightingController : MonoBehaviour
 {
 
 }
