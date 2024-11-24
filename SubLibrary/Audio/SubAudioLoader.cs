@@ -1,4 +1,5 @@
-﻿using Nautilus.Handlers;
+﻿using Nautilus.Extensions;
+using Nautilus.Handlers;
 using Nautilus.Utility;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,12 @@ public class SubAudioLoader : MonoBehaviour
             {
                 sound.set3DMinMaxDistance(asset.minDistance3D, asset.maxDistance3D);
             }
+
+            if (asset.fadeOutTime > 0)
+            {
+                sound.AddFadeOut(asset.fadeOutTime);
+            }
+
             CustomSoundHandler.RegisterCustomSound(asset.path, sound, asset.GetBus());
         }
     }

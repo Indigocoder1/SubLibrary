@@ -17,6 +17,8 @@ public class CustomFMODAsset : FMODAsset
     public MODE mode = AudioUtils.StandardSoundModes_3D;
     public float maxDistance3D;
     public float minDistance3D;
+    [Tooltip("Leave at -1 to not use fading")]
+    public float fadeOutTime = -1;
 
     [SerializeField] private SoundBus bus;
     [SerializeField] private string customBusPath;
