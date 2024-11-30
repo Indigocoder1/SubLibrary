@@ -5,6 +5,10 @@ namespace SubLibrary.Utilities;
 
 public class GenerateDistanceField : MonoBehaviour
 {
+    // This script is pretty much copied from the Seal's version, made by Lee23
+    // Make sure to check out their mod and original code at:
+    // https://github.com/LeeTwentyThree/SealSub/blob/main/SealSubMod/MonoBehaviours/EditorUtils/GenerateSealDistanceField.cs
+
     [Header("Config values")]
     public Bounds bounds;
     public DistanceField distanceField;
