@@ -26,8 +26,6 @@ public class Plugin : BaseUnityPlugin
     {
         Logger = base.Logger;
 
-        UWE.CoroutineHost.StartCoroutine(MaterialSetter.LoadMaterialsAsync());
-
         // register harmony patches, if there are any
         Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
         Logger.LogInfo($"Plugin {GUID} is loaded!");
