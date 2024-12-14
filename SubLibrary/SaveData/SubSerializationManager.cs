@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace SubLibrary.SaveData;
@@ -61,20 +62,9 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     private void UpdateDictionarySaveData()
     {
         string serializedData = JsonConvert.SerializeObject(saveData);
-        Type dataClassType = typeof(object);
-        try
-        {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            Type type = assemblies.SelectMany(a => a.GetTypes()).Single(t => t != null && t.FullName == saveDataClassTypeName);
 
-            dataClassType = type;
-        }
-        catch (Exception ex)
-        {
-            Plugin.Logger.LogError($"Error finding type for data class with name \"{saveDataClassTypeName}\"! Error: {ex.Message}");
-        }
-
-        SubSaveData subSaveData = new(dataClassType, serializedData);
+        var dataType = TryLoadDataType();
+        SubSaveData subSaveData = new(dataType, serializedData);
 
         if (!Plugin.SubSaves.saves.ContainsKey(prefabIdentifier.Id))
         {
@@ -84,6 +74,32 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
         {
             Plugin.SubSaves.saves[prefabIdentifier.Id] = subSaveData;
         }
+    }
+
+    private Type TryLoadDataType()
+    {
+        Type dataClassType = typeof(object);
+        try
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var types = assemblies.SelectMany(a => a.GetTypes());
+            foreach (var t in types)
+            {
+                if (t == null) continue;
+
+                if (t.FullName == saveDataClassTypeName)
+                {
+                    dataClassType = t;
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Plugin.Logger.LogError($"Error finding type for data class with name \"{saveDataClassTypeName}\"! Message: {ex.Message}");
+        }
+
+        return dataClassType;
     }
 
     public void OnProtoSerializeObjectTree(ProtobufSerializer serializer) { }

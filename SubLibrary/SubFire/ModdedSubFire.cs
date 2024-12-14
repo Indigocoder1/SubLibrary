@@ -403,17 +403,24 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
             saveData = new ModuleDataClass();
         }
 
-        fireCount = saveData.fireValues[identifier.Id].fireCount;
-        currentSmokeVal = saveData.fireValues[identifier.Id].smokeVal;
+        fireCount = saveData.fireValues.fireCount;
+        currentSmokeVal = saveData.fireValues.smokeVal;
 
         if (fireCount > 0)
         {
-            for (int i = 0; i < fireCount; i++)
-            {
-                SubRoom room = subRooms[Random.Range(0, subRooms.Count)];
-                room.smokeValue = currentSmokeVal / fireCount;
-                CreateFire(room);
-            }
+            UWE.CoroutineHost.StartCoroutine(SpawnSavedFires());
+        }
+    }
+
+    private IEnumerator SpawnSavedFires()
+    {
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < fireCount; i++)
+        {
+            SubRoom room = subRooms[Random.Range(0, subRooms.Count)];
+            room.smokeValue = currentSmokeVal / fireCount;
+            CreateFire(room);
         }
     }
 
@@ -426,11 +433,6 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
             saveData = new ModuleDataClass();
         }
 
-        if (!saveData.fireValues.ContainsKey(identifier.Id))
-        {
-            saveData.fireValues.Add(identifier.Id, default);
-        }
-
-        saveData.fireValues[identifier.Id] = (fireCount, currentSmokeVal);
+        saveData.fireValues = (GetFireCount(), currentSmokeVal);
     }
 }
