@@ -128,7 +128,11 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
 
     private void FireSimulation()
     {
-        if (LOD.IsMinimal()) return;
+        if (LOD.IsMinimal())
+        {
+            fireMusic.Stop();
+            return;
+        }
 
         int fireCount = RecalcFireValues();
         if (fireCount > 0 && Player.main.currentSub == subRoot)
