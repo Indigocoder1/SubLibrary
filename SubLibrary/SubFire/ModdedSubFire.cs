@@ -26,7 +26,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     [SerializeField] private SubControl subControl;
     [SerializeField] private BehaviourLOD LOD;
     [Tooltip("The SubRoom that the engine is in. Will be the spawn point of a fire if the engine overheats")]
-    [SerializeField] private SubRoom engineRoom;
+    public SubRoom engineRoom;
     [SerializeField, Tooltip("How much smoke to add per smoke sim update")] private float smokePerTick = 0.01f;
     [SerializeField, Tooltip("How much the smoke value increment decreases per room from fire source")] private float smokeFalloffPerRoom = 2f;
     [SerializeField, Tooltip("How long the fire suppression system runs for")] private float fireSuppressionSystemDuration = 30f;
@@ -296,7 +296,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
         currentSubRoom = room;
     }
 
-    private void CreateFire(SubRoom startInRoom)
+    public void CreateFire(SubRoom startInRoom)
     {
         List<Transform> availableNodes = new();
         foreach (var node in startInRoom.GetSpawnNodes())
