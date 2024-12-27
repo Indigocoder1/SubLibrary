@@ -5,7 +5,6 @@ namespace SubLibrary.Monobehaviors;
 internal class SubStatusAlerter : MonoBehaviour, IOnTakeDamage
 {
     [SerializeField] private SubRoot subRoot;
-    [SerializeField] private CyclopsNoiseManager noiseManager;
     [SerializeField] private FMOD_CustomEmitter creatureDamagesSFX;
     [SerializeField] private float minCollisionDamageForHUDShake;
 
@@ -17,14 +16,14 @@ internal class SubStatusAlerter : MonoBehaviour, IOnTakeDamage
     private void Update()
     {
         if (!subRoot.LOD.IsFull()) return;
-
+        
         hullDamageWarning = subRoot.live.GetHealthFraction() < 0.8f;
 
         if (HasPriorityNotification(out var notification))
         {
             subRoot.voiceNotificationManager.PlayVoiceNotification(notification);
         }
-        else if (noiseManager.GetNoisePercent() > 0.9f && !IsInvoking(nameof(PlayCavitationWarningDelayed)))
+        else if (subRoot.noiseManager.GetNoisePercent() > 0.9f && !IsInvoking(nameof(PlayCavitationWarningDelayed)))
         {
             Invoke(nameof(PlayCavitationWarningDelayed), 2f);
         }
