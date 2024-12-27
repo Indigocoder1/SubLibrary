@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using SubLibrary.Monobehaviors;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace SubLibrary.UI.UIManagers;
 
 internal class WarningUIManager : MonoBehaviour, IUIElement
 {
-    [SerializeField] private ModdedSubHudManager hudManager;
+    [SerializeField] private SubStatusAlerter statusAlerter;
     [SerializeField] private Image fireWarningIcon;
     [SerializeField] private Image creatureAttackIcon;
 
@@ -15,8 +16,8 @@ internal class WarningUIManager : MonoBehaviour, IUIElement
         fireWarningIcon.color = new Color(1f, 1f, 1f, warningAlpha);
         creatureAttackIcon.color = new Color(1f, 1f, 1f, warningAlpha);
 
-        fireWarningIcon.gameObject.SetActive(hudManager.HasFireWarning());
-        creatureAttackIcon.gameObject.SetActive(hudManager.HasCreatureAttack());
+        fireWarningIcon.gameObject.SetActive(statusAlerter.HasFireWarning());
+        creatureAttackIcon.gameObject.SetActive(statusAlerter.HasCreatureAttack());
     }
 
     public void OnSubDestroyed()
