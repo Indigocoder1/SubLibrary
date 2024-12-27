@@ -16,7 +16,7 @@ internal class SubStatusAlerter : MonoBehaviour, IOnTakeDamage
     private void Update()
     {
         if (!subRoot.LOD.IsFull()) return;
-        
+
         hullDamageWarning = subRoot.live.GetHealthFraction() < 0.8f;
 
         if (HasPriorityNotification(out var notification))

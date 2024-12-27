@@ -1,6 +1,4 @@
-﻿using ProtoBuf;
-using SubLibrary.SaveData;
-using System;
+﻿using SubLibrary.SaveData;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +56,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
         Color col = smokeImpostorColor;
         col.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
         smokeImposterRenderers.ForEach(r => r.material.SetColor(ShaderPropertyID._Color, col));
-        
+
         currentSubRoom = engineRoom;
 
         InvokeRepeating(nameof(SmokeSimulation), 3f, 3f);

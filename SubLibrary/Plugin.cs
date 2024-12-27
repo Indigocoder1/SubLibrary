@@ -2,7 +2,6 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using SubLibrary.Materials;
 using SubLibrary.SaveData;
 using System.Reflection;
 
