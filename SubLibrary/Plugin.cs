@@ -9,6 +9,8 @@ namespace SubLibrary;
 
 [BepInPlugin(GUID, pluginName, versionString)]
 [BepInDependency("com.snmodding.nautilus")]
+[BepInDependency("Indigocoder.Chameleon", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("SealSub", BepInDependency.DependencyFlags.SoftDependency)]
 public class Plugin : BaseUnityPlugin
 {
     private const string GUID = "com.indigocoder.sublibrary";
