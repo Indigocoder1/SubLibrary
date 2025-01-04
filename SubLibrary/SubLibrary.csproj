@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<AssemblyName>SubLibrary</AssemblyName>
-    <Version>1.4.1</Version>
+    <Version>1.5.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
 	<RootNamespace>SubLibrary</RootNamespace>
@@ -30,14 +30,16 @@
     <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Fixed SkyManager not applying renderers
-Added more available overrides to ModdedUpgradeConsole
-Added defauly proxy sensor gizmo color
-Added sub dead check to fire sim
-Defaulted dontConnectToRelays to true
-Added multiple auto references in AddSubScripts
-Proper fire state saving
-Many "Apply___" scripts are now obsolete due to Nautilus pre.33</PackageReleaseNotes>
+    <PackageReleaseNotes>Made skyapplier tags public
+Added fading out property to custom FMOD events
+Added credit to Lee for distance field generator
+Removed utilities that were added to Nautilus
+Fixed fires not saving
+Made fire music stop when LOD is minimal
+Made ModdedSubFire.CreateFire() public
+Made ModdedSubFire.engineRoom public
+Moved voice notification calls out of ModdedHUDManager
+Added patches &amp; tag to make subs attackable by leviathans</PackageReleaseNotes>
 
 </PropertyGroup>
 
