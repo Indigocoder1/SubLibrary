@@ -2,7 +2,7 @@
 
 namespace SubLibrary.Monobehaviors;
 
-internal class AttackableLikeCyclops : MonoBehaviour
+public class AttackableLikeCyclops : MonoBehaviour
 {
 
 }
