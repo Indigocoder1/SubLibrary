@@ -89,6 +89,11 @@ internal class SubStatusAlerter : MonoBehaviour, IOnTakeDamage
         {
             OnTakeCollisionDamage(damageInfo.damage);
         }
+
+        if (subRoot.live.health <= 0)
+        {
+            subRoot.BroadcastMessage("OnSubDestroyed");
+        }
     }
 
     private void OnTakeFireDamage()
