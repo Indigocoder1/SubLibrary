@@ -30,16 +30,9 @@
     <PackageId>com.Indigocoder.$(AssemblyName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Made skyapplier tags public
-Added fading out property to custom FMOD events
-Added credit to Lee for distance field generator
-Removed utilities that were added to Nautilus
-Fixed fires not saving
-Made fire music stop when LOD is minimal
-Made ModdedSubFire.CreateFire() public
-Made ModdedSubFire.engineRoom public
-Moved voice notification calls out of ModdedHUDManager
-Added patches &amp; tag to make subs attackable by leviathans</PackageReleaseNotes>
+    <PackageReleaseNotes>Made `AttackableLikeCyclops` public
+Fixed a bug with OnSubDestroyed not being called
+Added some checks to OnDamageRelay to not double call ExternalDamageManager listeners</PackageReleaseNotes>
 
 </PropertyGroup>
 
