@@ -5,15 +5,20 @@ namespace SubLibrary.Monobehaviors;
 
 internal class OnTakeDamageRelay : MonoBehaviour, IOnTakeDamage
 {
+    [SerializeField] private LiveMixin mixin;
+    [SerializeField] private CyclopsExternalDamageManager damageManager;
     private IOnTakeDamage[] listeners;
-    private LiveMixin mixin;
+
+    private void OnValidate()
+    {
+        if (!mixin) TryGetComponent(out mixin);
+    }
 
     private void Start()
     {
-        mixin = GetComponent<LiveMixin>();
         listeners = GetComponentsInChildren<IOnTakeDamage>(true).Where(l =>
         {
-            return l != (IOnTakeDamage)this && !mixin.damageReceivers.Contains(l);
+            return l != (IOnTakeDamage)this && !mixin.damageReceivers.Contains(l) && !damageManager.damageRecievers.Contains(l);
         }).ToArray();
     }
 
