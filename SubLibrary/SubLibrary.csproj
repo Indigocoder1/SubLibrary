@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
 	<AssemblyName>SubLibrary</AssemblyName>
-    <Version>1.5.0</Version>
+    <Version>1.6.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
 	<RootNamespace>SubLibrary</RootNamespace>
@@ -33,6 +33,7 @@
     <PackageReleaseNotes>Made `AttackableLikeCyclops` public
 Fixed a bug with OnSubDestroyed not being called
 Added some checks to OnDamageRelay to not double call ExternalDamageManager listeners</PackageReleaseNotes>
+    <PackageIcon>SubLibraryPackageIco.png</PackageIcon>
 
 </PropertyGroup>
 
@@ -49,10 +50,18 @@ Added some checks to OnDamageRelay to not double call ExternalDamageManager list
     <PackageReference Include="Subnautica.Nautilus" Version="1.*-*" PrivateAssets="all" />
 
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="Package\SubLibraryPackageIco.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Package\SubLibraryPackageIco.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <Import Project="PostBuildEvents.targets" />
