@@ -11,7 +11,9 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     [HideInInspector] public BaseSubDataClass saveData;
 
     public PrefabIdentifier prefabIdentifier;
-    [SerializeField, Tooltip("The name of your save data class that inherits from BaseSubDataClass. CASE SENSITIVE!")] private string saveDataClassTypeName;
+    [Tooltip("The name of your save data class that inherits from BaseSubDataClass. CASE SENSITIVE!")]
+    [SerializeField] private string saveDataClassTypeName;
+    [SerializeField] private bool sendEventsWhenDisabled;
 
     private void OnValidate()
     {
@@ -21,10 +23,22 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     private void Awake()
     {
         saveData = new ModuleDataClass();
+        if (sendEventsWhenDisabled)
+        {
+            Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
+        }
     }
 
-    private void OnEnable() => Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
-    private void OnDisable() => Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
+    private void OnEnable()
+    {
+        if (sendEventsWhenDisabled) return;
+        Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
+    }
+    private void OnDisable()
+    {
+        if (sendEventsWhenDisabled) return;
+        Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
+    }
 
     public void OnProtoSerialize(ProtobufSerializer serializer) { }
 
