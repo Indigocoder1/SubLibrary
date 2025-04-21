@@ -18,19 +18,19 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
         waterClipProxy.clipMaterial = cyclops.transform.Find("WaterClipProxy").GetComponent<WaterClipProxy>().clipMaterial;
-    }
-
-    private void Start()
-    {
-        waterClipProxy.initialized = true;
-        if (waterClipProxy.waterSurface == null) waterClipProxy.waterSurface = WaterSurface.Get();
-
+        
         ApplyWaterClipDistanceField();
         ApplySDFDistanceField();
 
         waterClipProxy.enabled = true;
         sdfCutout.enabled = true;
         gameObject.layer = 28;
+    }
+
+    private void Start()
+    {
+        waterClipProxy.initialized = true;
+        if (waterClipProxy.waterSurface == null) waterClipProxy.waterSurface = WaterSurface.Get();
     }
 
     private void ApplyWaterClipDistanceField()
