@@ -7,6 +7,7 @@ namespace SubLibrary.Patches;
 [HarmonyPatch(typeof(SubRoot))]
 internal class SubRootPatches
 {
+    [HarmonyPatch(nameof(SubRoot.OnCollisionEnter)), HarmonyPrefix]
     private static bool OnCollisionEnter_Prefix(SubRoot __instance, Collision col)
     {
         var removeBangs = __instance.GetComponent<RemoveBangsFromSmallFish>();
