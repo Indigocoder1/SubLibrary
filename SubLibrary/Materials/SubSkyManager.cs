@@ -78,5 +78,18 @@ internal class SubSkyManager : PrefabModifier, ICyclopsReferencer
 
         subRoot.interiorSky = skyBaseInterior;
         subRoot.glassSky = skyBaseGlass;
+
+        ApplySky(exteriorSkyApplier);
+        ApplySky(interiorSkyApplier);
+        ApplySky(windowSkyApplier);
+
+        interiorSkyApplier.dynamic = false;
+        windowSkyApplier.dynamic = false;
+    }
+
+    private void ApplySky(SkyApplier applier)
+    {
+        GameObject environment = SkyApplier.GetEnvironment(applier.gameObject, applier.anchorSky);
+        applier.GetAndApplySkybox(environment);
     }
 }
