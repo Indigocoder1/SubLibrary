@@ -1,4 +1,5 @@
-﻿using SubLibrary.SaveData;
+﻿using System;
+using SubLibrary.SaveData;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,36 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     [SerializeField, Tooltip("How long the fire suppression system runs for")] private float fireSuppressionSystemDuration = 30f;
     [Tooltip("How long the doors are locked for after fire suppression is started")]
     [SerializeField] private float fireSuppressionDoorLockDuration = 30f;
-
+    
+    [Header("Fire Customization")]
+    [SerializeField] private float damagePerFirePerUpdate = 15f;
+    [Tooltip("The min overheat value for the 'engine overheat' voice notification to play.")]
+    [Range(0, 10)]
+    [SerializeField] private int thresholdForEngineOverheat = 3;
+    [Tooltip("The chance that a fire will be spawned when the engine temps are high and the engine heat is updated")]
+    [Range(0, 1)]
+    [SerializeField] private float fireChanceWhenEngineOverheat = 0.17f;
+    [Tooltip("The min overheat value for the 'engine temperature critical' voice notification to play.")]
+    [Range(0, 10)]
+    [SerializeField] private int thresholdForEngineOverheatCritical = 5;
+    [Tooltip("The chance that a fire will be spawned when the engine temps are critical and the engine heat is updated")]
+    [Range(0, 1)]
+    [SerializeField] private float fireChanceWhenEngineOverheatCritical = 0.25f;
+    [Range(0, 1f)]
+    [SerializeField] private float fireChanceWhenTakingDamage = 0.09f;
+    [Range(0, 1f)]
+    [SerializeField] private float fireChanceWhenTakingDamageFromFire = 0.02f;
+    [Tooltip("The chance a fire spawns when taking damage relative to the sub's health. X axis = normalized health, Y axis = chance of fire spawning out of 1")]
+    [SerializeField] private AnimationCurve fireChanceOverHealth =
+        new(new Keyframe(0, 1)
+        {
+            outTangent = -1.25f
+        }, new Keyframe(0.8f, 0)
+        {
+            inTangent = -1.25f
+        }, new Keyframe(1, 0));
+    // ^ Just make the keyframes linear
+    
     private int oldFireCount;
     private int engineOverheatValue;
     private bool fireSuppressionActive;
@@ -38,10 +68,15 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     private CyclopsSmokeScreenFXController smokeController;
     private SubRoom currentSubRoom;
 
-    public int fireCount;
-    public float currentSmokeVal;
+    [HideInInspector] public int fireCount;
+    [HideInInspector] public float currentSmokeVal;
 
     private List<SubRoom> subRooms = new();
+
+    private void OnValidate()
+    {
+        Debug.Log($"In tan = {fireChanceOverHealth.keys[1].inTangent} | Out tan = {fireChanceOverHealth.keys[1].outTangent}");
+    }
 
     private void Awake()
     {
@@ -155,7 +190,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
             return;
         }
 
-        float damage = fireCount * 15f;
+        float damage = fireCount * damagePerFirePerUpdate;
         liveMixin.TakeDamage(damage, type: DamageType.Fire);
         subRoot.BroadcastMessage("OnTakeFireDamage");
         oldFireCount = fireCount;
@@ -168,19 +203,20 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
         if (cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && subControl.appliedThrottle && cyclopsMotorMode.engineOn)
         {
             engineOverheatValue = Mathf.Min(engineOverheatValue + 1, 10);
-            int fireChance = 0;
-            if (engineOverheatValue > 5)
+            float fireChance = Random.Range(0f, 100f);
+            float chanceCheck = 0;
+            if (engineOverheatValue > thresholdForEngineOverheatCritical)
             {
-                fireChance = Random.Range(1, 4);
                 subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.engineOverheatCriticalNotification);
+                chanceCheck = fireChanceWhenEngineOverheatCritical;
             }
-            else if (engineOverheatValue > 3)
+            else if (engineOverheatValue > thresholdForEngineOverheat)
             {
-                fireChance = Random.Range(1, 6);
                 subRoot.voiceNotificationManager.PlayVoiceNotification(subRoot.engineOverheatNotification);
+                chanceCheck = fireChanceWhenEngineOverheat;
             }
 
-            if (fireChance == 1)
+            if (fireChance < chanceCheck)
             {
                 CreateFire(engineRoom);
             }
@@ -327,10 +363,10 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     {
         if (damageInfo.damage <= 0) return;
 
-        float fireChance = 9f;
+        float fireChance = fireChanceWhenTakingDamage;
         if (damageInfo.type == DamageType.Fire)
         {
-            fireChance = 2f;
+            fireChance = fireChanceWhenTakingDamageFromFire;
         }
 
         if (!CanCreateFire(fireChance)) return;
@@ -377,8 +413,8 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     {
         if (liveMixin.GetHealthFraction() > 0.8f) return false;
 
-        float fullHealth = liveMixin.GetHealthFraction() * 100f;
-        return Random.Range(0f, fullHealth) <= fireChance;
+        float chance = fireChanceOverHealth.Evaluate(liveMixin.GetHealthFraction());
+        return Random.Range(0f, chance) <= fireChance;
     }
 
     /// <summary>
