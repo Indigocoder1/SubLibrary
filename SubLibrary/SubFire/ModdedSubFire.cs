@@ -73,11 +73,6 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
 
     private List<SubRoom> subRooms = new();
 
-    private void OnValidate()
-    {
-        Debug.Log($"In tan = {fireChanceOverHealth.keys[1].inTangent} | Out tan = {fireChanceOverHealth.keys[1].outTangent}");
-    }
-
     private void Awake()
     {
         smokeController = MainCamera.camera.GetComponent<CyclopsSmokeScreenFXController>();
