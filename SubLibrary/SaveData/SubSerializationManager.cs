@@ -128,5 +128,6 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     private void OnDestroy()
     {
         Plugin.SubSaves.saves.Remove(prefabIdentifier.Id);
+        Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
     }
 }
