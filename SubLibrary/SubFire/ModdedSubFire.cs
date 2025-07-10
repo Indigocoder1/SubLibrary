@@ -409,7 +409,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
         if (liveMixin.GetHealthFraction() > 0.8f) return false;
 
         float chance = fireChanceOverHealth.Evaluate(liveMixin.GetHealthFraction());
-        return Random.Range(0f, chance) <= fireChance;
+        return Random.Range(0f, 1 - chance) <= fireChance;
     }
 
     /// <summary>
