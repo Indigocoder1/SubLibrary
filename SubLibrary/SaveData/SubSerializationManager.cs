@@ -15,6 +15,8 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     [SerializeField] private string saveDataClassTypeName;
     [SerializeField] private bool sendEventsWhenDisabled;
 
+    private bool eventRegistered;
+
     private void OnValidate()
     {
         if (!this.prefabIdentifier && TryGetComponent(out PrefabIdentifier prefabIdentifier)) this.prefabIdentifier = prefabIdentifier;
@@ -23,21 +25,19 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     private void Awake()
     {
         saveData = new ModuleDataClass();
-        if (sendEventsWhenDisabled)
-        {
-            Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
-        }
     }
 
     private void OnEnable()
     {
-        if (sendEventsWhenDisabled) return;
+        if (!eventRegistered) return;
         Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
+        eventRegistered = true;
     }
     private void OnDisable()
     {
         if (sendEventsWhenDisabled) return;
         Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
+        eventRegistered = false;
     }
 
     public void OnProtoSerialize(ProtobufSerializer serializer) { }
@@ -127,7 +127,10 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
 
     private void OnDestroy()
     {
-        Plugin.SubSaves.saves.Remove(prefabIdentifier.Id);
         Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
+        eventRegistered = false;
+        if (!gameObject.scene.isLoaded) return;
+        
+        Plugin.SubSaves.saves.Remove(prefabIdentifier.Id);
     }
 }
