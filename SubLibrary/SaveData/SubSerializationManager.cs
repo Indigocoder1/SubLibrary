@@ -11,11 +11,8 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     [HideInInspector] public BaseSubDataClass saveData;
 
     public PrefabIdentifier prefabIdentifier;
-    [Tooltip("The name of your save data class that inherits from BaseSubDataClass. CASE SENSITIVE!")]
-    [SerializeField] private string saveDataClassTypeName;
-    [SerializeField] private bool sendEventsWhenDisabled;
-
-    private bool eventRegistered;
+    [Tooltip("The assembly qualified name of your save data class that inherits from BaseSubDataClass. CASE SENSITIVE!")]
+    [SerializeField] private string saveDataAssemblyQualifiedName;
 
     private void OnValidate()
     {
@@ -24,20 +21,20 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
 
     private void Awake()
     {
-        saveData = new ModuleDataClass();
+        Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
+        
+        Plugin.SubSaves.OnFinishedLoading += (a, b) =>
+        {
+            Plugin.Logger.LogInfo($"Save data finished loading at {Time.realtimeSinceStartup}");
+        };
+        Initialize();
     }
 
-    private void OnEnable()
+    private void Initialize()
     {
-        if (!eventRegistered) return;
-        Plugin.SubSaves.OnStartedSaving += OnBeforeSave;
-        eventRegistered = true;
-    }
-    private void OnDisable()
-    {
-        if (sendEventsWhenDisabled) return;
-        Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
-        eventRegistered = false;
+        if (saveData != null) return;
+        
+        saveData = new ModuleDataClass();
     }
 
     public void OnProtoSerialize(ProtobufSerializer serializer) { }
@@ -46,13 +43,19 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
 
     private void OnSaveDataLoaded()
     {
+        Initialize();
+        
+        Plugin.Logger.LogInfo($"Save data loaded called at {Time.realtimeSinceStartup}");
         var serializedSave = Plugin.SubSaves.saves[prefabIdentifier.Id];
-
+        Plugin.Logger.LogInfo($"Serialized save = {serializedSave}");
+        
         var saveData = DeserializeSubSaveData(serializedSave);
+        Plugin.Logger.LogInfo($"Deserialized save = {saveData}");
         this.saveData = saveData;
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
+            Plugin.Logger.LogInfo($"Calling OnSaveDataLoaded on {saveListener}");
             saveListener.OnSaveDataLoaded(saveData);
         }
     }
@@ -61,6 +64,7 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     {
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
+            Plugin.Logger.LogInfo($"Calling OnBeforeDataSaved on {saveListener}");
             saveListener.OnBeforeDataSaved(ref saveData);
         }
 
@@ -94,22 +98,11 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
         Type dataClassType = typeof(object);
         try
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var types = assemblies.SelectMany(a => a.GetTypes());
-            foreach (var t in types)
-            {
-                if (t == null) continue;
-
-                if (t.FullName == saveDataClassTypeName)
-                {
-                    dataClassType = t;
-                    break;
-                }
-            }
+            dataClassType = Type.GetType(saveDataAssemblyQualifiedName);
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Error finding type for data class with name \"{saveDataClassTypeName}\"! Message: {ex.Message}");
+            Plugin.Logger.LogError($"Error finding type for data class with name \"{saveDataAssemblyQualifiedName}\"! Message: {ex.Message}");
         }
 
         return dataClassType;
@@ -128,7 +121,7 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     private void OnDestroy()
     {
         Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
-        eventRegistered = false;
+        Plugin.Logger.LogInfo($"On destroy called. Scene loaded = {gameObject.scene.isLoaded}");
         if (!gameObject.scene.isLoaded) return;
         
         Plugin.SubSaves.saves.Remove(prefabIdentifier.Id);
