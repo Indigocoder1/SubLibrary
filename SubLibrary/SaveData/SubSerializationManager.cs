@@ -25,7 +25,7 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
         
         Plugin.SubSaves.OnFinishedLoading += (a, b) =>
         {
-            Plugin.Logger.LogInfo($"Save data finished loading at {Time.realtimeSinceStartup}");
+            Plugin.Logger.LogDebug($"Save data finished loading at {Time.realtimeSinceStartup}");
         };
         Initialize();
     }
@@ -45,17 +45,17 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     {
         Initialize();
         
-        Plugin.Logger.LogInfo($"Save data loaded called at {Time.realtimeSinceStartup}");
+        Plugin.Logger.LogDebug($"Save data loaded called at {Time.realtimeSinceStartup}");
         var serializedSave = Plugin.SubSaves.saves[prefabIdentifier.Id];
-        Plugin.Logger.LogInfo($"Serialized save = {serializedSave}");
+        Plugin.Logger.LogDebug($"Serialized save = {serializedSave}");
         
         var saveData = DeserializeSubSaveData(serializedSave);
-        Plugin.Logger.LogInfo($"Deserialized save = {saveData}");
+        Plugin.Logger.LogDebug($"Deserialized save = {saveData}");
         this.saveData = saveData;
 
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
-            Plugin.Logger.LogInfo($"Calling OnSaveDataLoaded on {saveListener}");
+            Plugin.Logger.LogDebug($"Calling OnSaveDataLoaded on {saveListener}");
             saveListener.OnSaveDataLoaded(saveData);
         }
     }
@@ -64,7 +64,7 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     {
         foreach (var saveListener in GetComponentsInChildren<ISaveDataListener>(true))
         {
-            Plugin.Logger.LogInfo($"Calling OnBeforeDataSaved on {saveListener}");
+            Plugin.Logger.LogDebug($"Calling OnBeforeDataSaved on {saveListener}");
             saveListener.OnBeforeDataSaved(ref saveData);
         }
 
@@ -121,7 +121,7 @@ public class SubSerializationManager : MonoBehaviour, IProtoEventListener, IProt
     private void OnDestroy()
     {
         Plugin.SubSaves.OnStartedSaving -= OnBeforeSave;
-        Plugin.Logger.LogInfo($"On destroy called. Scene loaded = {gameObject.scene.isLoaded}");
+        Plugin.Logger.LogDebug($"On destroy called. Scene loaded = {gameObject.scene.isLoaded}");
         if (!gameObject.scene.isLoaded) return;
         
         Plugin.SubSaves.saves.Remove(prefabIdentifier.Id);
