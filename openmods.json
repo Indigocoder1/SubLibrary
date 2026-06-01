@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 2,
+  "name": "Sub Library",
+  "supportedGameId": "subnautica",
+  "dependencies": {
+    "2.0.0": [
+      {
+        "modId": 30,
+        "fromRelease": "1.0.0-pre.49"
+      }
+    ]
+  },
+  "thumbnail": "SubLibraryThumbnail.webp",
+  "install": {
+    "path": "BepInEx/plugins"
+  }
+}
