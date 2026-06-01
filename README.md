@@ -1,3 +1,6 @@
+# Sub Library
+A library mod for creating Submarines in Subnautica. Does not do anything by itself.
+
 # Using the Library
 
 This library is designed for implementing submarines in mods for the game Subnautica. If that is not what you're doing, then this package is not for you.
