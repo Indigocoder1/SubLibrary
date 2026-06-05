@@ -475,3 +475,4 @@ fabric.properties
 
 # Postbuild Files; .template file should be uploaded to repo instead.
 /Configurations.targets
+/SubLibrary/.idea
