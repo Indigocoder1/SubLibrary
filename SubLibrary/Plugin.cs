@@ -4,6 +4,7 @@ using HarmonyLib;
 using Nautilus.Handlers;
 using SubLibrary.SaveData;
 using System.Reflection;
+using Nautilus.Utility.ModMessages;
 
 namespace SubLibrary;
 
@@ -15,7 +16,7 @@ public class Plugin : BaseUnityPlugin
 {
     private const string GUID = "com.indigocoder.sublibrary";
     private const string pluginName = "Sub Library";
-    private const string versionString = "1.7.5";
+    private const string versionString = "1.7.6";
 
     public new static ManualLogSource Logger { get; private set; }
 
@@ -29,6 +30,10 @@ public class Plugin : BaseUnityPlugin
 
         // register harmony patches, if there are any
         Harmony.CreateAndPatchAll(Assembly, $"{GUID}");
+        
+        ModMessageSystem.SendGlobal("FindMyUpdates",
+            "https://raw.githubusercontent.com/Indigocoder1/SubLibrary/refs/heads/main/Version.json");
+        
         Logger.LogInfo($"Plugin {GUID} is loaded!");
     }
 }

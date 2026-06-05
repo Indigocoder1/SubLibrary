@@ -3,7 +3,7 @@
   "name": "Sub Library",
   "supportedGameId": "subnautica",
   "dependencies": {
-    "2.0.0": [
+    "1.7.6": [
       {
         "modId": 30,
         "fromRelease": "1.0.0-pre.49"
