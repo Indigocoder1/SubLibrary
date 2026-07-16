@@ -16,7 +16,7 @@ public class Plugin : BaseUnityPlugin
 {
     private const string GUID = "com.indigocoder.sublibrary";
     private const string pluginName = "Sub Library";
-    private const string versionString = "1.7.6";
+    private const string versionString = "1.7.7";
 
     public new static ManualLogSource Logger { get; private set; }
 
