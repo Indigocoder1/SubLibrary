@@ -1,4 +1,5 @@
-﻿using SubLibrary.Audio;
+﻿using System.Runtime.Remoting.Contexts;
+using SubLibrary.Audio;
 using SubLibrary.Materials;
 using SubLibrary.Monobehaviors;
 using SubLibrary.SaveData;
@@ -7,12 +8,10 @@ using UWE;
 
 namespace SubLibrary.Utilities;
 
-[ExecuteAlways]
 internal class AddSubScripts : MonoBehaviour
 {
-    private bool destroy;
-
-    private void OnValidate()
+    [ContextMenu("Add Components")]
+    public void AddComponents()
     {
         var rb = gameObject.EnsureComponent<Rigidbody>();
         var subRoot = gameObject.EnsureComponent<SubRoot>();
@@ -94,14 +93,6 @@ internal class AddSubScripts : MonoBehaviour
         skyManager.lightingController = lightingController;
         skyManager.subRoot = subRoot;
 
-        destroy = true;
-    }
-
-    private void Update()
-    {
-        if (destroy)
-        {
-            DestroyImmediate(this);
-        }
+        DestroyImmediate(this);
     }
 }
