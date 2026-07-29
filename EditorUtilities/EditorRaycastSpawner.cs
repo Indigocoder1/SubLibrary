@@ -1,6 +1,13 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+// This class adds a custom menu under Tools/Editor raycast spawner
+// that, after selecting an object parent and preview material,
+// click on objects with colliders in a scene and spawn points under your mouse
+// that are aligned to the object's normal
+// NOTE: This only seems to work in scene views, so you can't
+// add objects directly to prefabs
+
 public class EditorRaycastSpawner : EditorWindow
 {
     private static bool active;
