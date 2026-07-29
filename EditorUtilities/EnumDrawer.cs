@@ -11,6 +11,10 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
+// This class is a custom property drawer for enums
+// so that you can search for specific TechTypes
+// instead of having to scroll through the giant list
+
 [CustomPropertyDrawer(typeof(Enum), true)]
 public class EnumDrawer : PropertyDrawer
 {
