@@ -5,6 +5,11 @@ namespace SubLibrary.UI.UIManagers;
 
 internal class HealthUIManager : MonoBehaviour, IUIElement
 {
+    // Code credit:
+    // SealSub's HealthUIManager https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UI/HealthUIManager.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     [SerializeField] private LiveMixin subLiveMixin;
     [SerializeField] private Image healthBar;
 

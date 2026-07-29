@@ -4,6 +4,11 @@ namespace SubLibrary.UpgradeModules;
 
 public abstract class BaseDepthModule : MonoBehaviour, IOnModulesChanged
 {
+    // Code credit:
+    // SealSub's DepthModule https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UpgradeModules/DepthModule.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     public abstract float Depth { get; }
     private CrushDamage _damage;
 

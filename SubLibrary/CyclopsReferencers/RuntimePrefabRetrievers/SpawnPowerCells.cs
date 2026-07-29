@@ -4,6 +4,12 @@ namespace SubLibrary.CyclopsReferencers.RuntimePrefabRetrievers;
 
 internal class SpawnPowerCells : MonoBehaviour, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's SpawnPowerCellModel https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/Prefab/SpawnPowerCellModel.cs
+    // Contributors:
+    // - EldritchCarMaker
+    // - Kallie23
+    
     [SerializeField] private Transform parent;
     [SerializeField] private Vector3 localPos;
     [SerializeField] private Vector3 localAngles;

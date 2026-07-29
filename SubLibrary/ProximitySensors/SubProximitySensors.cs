@@ -54,7 +54,7 @@ internal class SubProximitySensors : MonoBehaviour
             serializedNodes.Add(new SensorNode(warningDots[i], sensorProbes[i], sphereRadi[i], travelDistances[i]));
         }
 
-        Player.main.playerModeChanged.AddHandler(gameObject, new UWE.Event<Player.Mode>.HandleFunction(OnPlayerModeChange));
+        Player.main.playerModeChanged.AddHandler(gameObject, OnPlayerModeChange);
         foreach (var node in serializedNodes)
         {
             node.uiWarningDot.SetActive(false);
@@ -97,7 +97,7 @@ internal class SubProximitySensors : MonoBehaviour
             RunSphereCasts(ref closestDistance, ref pingSoundReduction, out enableWarningUI);
         }
 
-        if (closestDistance != NO_COLLISION)
+        if (!Mathf.Approximately(closestDistance, NO_COLLISION))
         {
             pingInterval = (closestDistance / pingSoundReduction) + 0.2f;
             if (!IsInvoking(nameof(PlayPingSound)))
@@ -129,7 +129,7 @@ internal class SubProximitySensors : MonoBehaviour
 
         foreach (var node in serializedNodes)
         {
-            if (node.returnDistance != NO_COLLISION && motorMode.engineOn)
+            if (!Mathf.Approximately(node.returnDistance, NO_COLLISION) && motorMode.engineOn)
             {
                 node.uiWarningDot.SetActive(true);
             }
@@ -171,7 +171,7 @@ internal class SubProximitySensors : MonoBehaviour
                     enableWarningUI = true;
                 }
 
-                if (hitInfo.distance < closestDistance || closestDistance == NO_COLLISION)
+                if (hitInfo.distance < closestDistance || Mathf.Approximately(closestDistance, NO_COLLISION))
                 {
                     closestDistance = hitInfo.distance;
                     pingSoundReduction = distance;

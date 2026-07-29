@@ -5,6 +5,11 @@ namespace SubLibrary.UI.UIManagers;
 
 internal class PowerUIManager : MonoBehaviour, IUIElement
 {
+    // Code credit:
+    // SealSub's PowerUIManager https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UI/PowerUIManager.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     [SerializeField] private SubRoot subRoot;
     [SerializeField] private TextMeshProUGUI powerText;
 

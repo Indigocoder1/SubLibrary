@@ -10,6 +10,12 @@ namespace SubLibrary.Materials;
 
 internal class SubSkyManager : PrefabModifier, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's SealSkyApplierManager https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/Prefab/SealSkyApplierManager.cs
+    // Contributors:
+    // - Kallie23
+    // - EldritchCarMaker
+    
     public SubRoot subRoot;
     public SkyApplier exteriorSkyApplier;
     public SkyApplier interiorSkyApplier;

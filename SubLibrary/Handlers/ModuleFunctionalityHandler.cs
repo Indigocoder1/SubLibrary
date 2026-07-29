@@ -11,6 +11,12 @@ namespace SubLibrary.Handlers;
 
 public class ModuleFunctionalityHandler : MonoBehaviour
 {
+    // Code credit:
+    // SealSub's SealSubRoot https://github.com/32Kallies/SealSub/blob/acafaae6573625c695642439530c93c2280ebf03/SealSubMod/MonoBehaviours/SealSubRoot.cs#L21
+    // Contributors:
+    // - EldritchCarMaker
+    // - Kallie23
+    
     public static Dictionary<TechType, Type> ModuleFunctions = new();
 
     [Tooltip("The GameObject on which module function components will be placed. Should have a child object identifier")]

@@ -4,6 +4,11 @@ namespace SubLibrary.CyclopsReferencers.RuntimePrefabRetrievers;
 
 internal class SpawnFloodlights : MonoBehaviour, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's FloodlightCreator https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/Prefab/FloodlightCreator.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
         var cyclopsLightParent = cyclops.transform.Find("Floodlights");

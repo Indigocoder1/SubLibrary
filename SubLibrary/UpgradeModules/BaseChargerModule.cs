@@ -9,6 +9,11 @@ namespace SubLibrary.UpgradeModules;
 /// <typeparam name="T">The <see cref="BaseChargerFunctionality"> for the module</typeparam>
 public abstract class BaseChargerModule<T> : MonoBehaviour where T : BaseChargerFunctionality
 {
+    // Code credit:
+    // SealSub's BaseChargerModule https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UpgradeModules/BaseChargerModule.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     protected T chargerFunction;
 
     protected virtual void Awake()

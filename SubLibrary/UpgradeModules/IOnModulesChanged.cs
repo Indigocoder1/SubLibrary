@@ -2,6 +2,11 @@
 
 public interface IOnModulesChanged
 {
+    // Code credit:
+    // SealSub's IOnModuleChange https://github.com/32Kallies/SealSub/blob/acafaae6573625c695642439530c93c2280ebf03/SealSubMod/Interfaces/IOnModuleChange.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     /// <summary>
     /// Called when any module is added or removed. Called after it is added, and before it is destroyed
     /// </summary>

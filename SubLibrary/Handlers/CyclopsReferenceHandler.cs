@@ -5,6 +5,12 @@ namespace SubLibrary.Handlers;
 
 public static class CyclopsReferenceHandler
 {
+    // Code credit:
+    // SealSub's CyclopsReferenceManager (https://github.com/32Kallies/SealSub/blob/main/SealSubMod/Utility/CyclopsReferenceManager.cs)
+    // Contributors:
+    // - Kallie23
+    // - EldritchCarMaker
+    
     public static GameObject CyclopsReference { get; private set; }
     private static bool loaded;
 

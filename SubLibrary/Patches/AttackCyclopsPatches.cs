@@ -40,7 +40,8 @@ internal class AttackCyclopsPatches
         {
             return new CodeMatch(i => i.opcode == OpCodes.Call && i.operand is MethodInfo && ((MethodInfo)i.operand).Name == "IsCurrentSubCyclops");
         }
-        else if (hasSeal)
+        
+        if (hasSeal)
         {
             return new CodeMatch(i => i.opcode == OpCodes.Call && i.operand is MethodInfo && ((MethodInfo)i.operand).Name == "IsCyclopsBool");
         }

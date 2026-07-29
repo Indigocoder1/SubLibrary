@@ -53,18 +53,17 @@ internal class SubStatusAlerter : MonoBehaviour, IOnTakeDamage
     /// <returns>If a notification is needed</returns>
     private bool HasPriorityNotification(out VoiceNotification notification)
     {
-        bool needsNotif = false;
+        bool needsNotif = creatureAttackWarning || fireWarning || hullDamageWarning;
         notification = null;
 
+        // As gross as these if-elses are, the switch statement is worse (It's at least less readable)
         if (creatureAttackWarning && fireWarning)
         {
             notification = subRoot.creatureAttackNotification;
-            needsNotif = true;
         }
         else if (creatureAttackWarning)
         {
             notification = subRoot.creatureAttackNotification;
-            needsNotif = true;
         }
         else if (fireWarning)
         {
@@ -73,7 +72,6 @@ internal class SubStatusAlerter : MonoBehaviour, IOnTakeDamage
         else if (hullDamageWarning)
         {
             notification = subRoot.hullDamageNotification;
-            needsNotif = true;
         }
 
         return needsNotif;

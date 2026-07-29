@@ -5,6 +5,12 @@ namespace SubLibrary.CyclopsReferencers.RuntimePrefabRetrievers;
 
 internal class SpawnCyclopsDamagePoints : MonoBehaviour, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's SpawnCyclopsDamagePoints https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/Prefab/SpawnCyclopsDamagePoints.cs
+    // Contributors:
+    // - EldritchCarMaker
+    // - Kallie23
+    
     [SerializeField] private CyclopsExternalDamageManager damageManager;
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)

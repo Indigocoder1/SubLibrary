@@ -7,6 +7,13 @@ namespace SubLibrary.Monobehaviors;
 
 public class ModdedUpgradeConsole : HandTarget, IHandTarget, ISaveDataListener
 {
+    // Code credit:
+    // SealSub's SealUpgradeConsole https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/SealUpgradeConsole.cs
+    // (Slightly modified)
+    // Contributors:
+    // - Kallie23
+    // - EldritchCarMaker
+    
     public Equipment modules { get; private set; }
 
     [SerializeField] private SubSerializationManager serializationManager;

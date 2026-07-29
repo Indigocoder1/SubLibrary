@@ -6,6 +6,11 @@ namespace SubLibrary.UI;
 
 internal class ModdedSubHudManager : MonoBehaviour
 {
+    // Code credit:
+    // SealSub's SealHelmHUDManager https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UI/SealHelmHUDManager.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     [SerializeField] private SubRoot subRoot;
     [SerializeField, Tooltip("Can be null if you don't have a horn")] private GameObject hornObject;
     [SerializeField] private CanvasGroup canvasGroup;

@@ -4,6 +4,12 @@ namespace SubLibrary.CyclopsReferencers.RuntimePrefabRetrievers;
 
 internal class SpawnUpgradeModules : MonoBehaviour, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's SealUpgradeModuleModelSpawner https://github.com/32Kallies/SealSub/blob/acafaae6573625c695642439530c93c2280ebf03/SealSubMod/MonoBehaviours/Prefab/SealUpgradeModuleModelSpawner.cs#L15
+    // Contributors:
+    // - Kallie23
+    // - EldritchCarMaker
+    
     [SerializeField] private Transform[] moduleSlots;
 
     public void OnCyclopsReferenceFinished(GameObject cyclops)

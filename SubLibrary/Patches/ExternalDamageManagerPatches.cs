@@ -3,7 +3,7 @@ using SubLibrary.SubFire;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace PrototypeSubMod.Patches;
+namespace SubLibrary.Patches;
 
 [HarmonyPatch(typeof(CyclopsExternalDamageManager))]
 internal class ExternalDamageManagerPatches
@@ -28,7 +28,7 @@ internal class ExternalDamageManagerPatches
         return matcher.InstructionEnumeration();
     }
 
-    public static bool HasAFire(SubFire originalSubFire, CyclopsExternalDamageManager instance)
+    public static bool HasAFire(global::SubFire originalSubFire, CyclopsExternalDamageManager instance)
     {
         var moddedSubFire = instance.GetComponentInChildren<ModdedSubFire>(true);
 

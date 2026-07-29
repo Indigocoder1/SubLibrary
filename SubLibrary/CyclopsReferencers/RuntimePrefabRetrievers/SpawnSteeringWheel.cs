@@ -4,6 +4,12 @@ namespace SubLibrary.CyclopsReferencers.RuntimePrefabRetrievers;
 
 internal class SpawnSteeringWheel : MonoBehaviour, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's SpawnSteeringWheel https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/Prefab/SpawnSteeringWheel.cs
+    // Contributors:
+    // - Kallie23
+    // - EldritchCarMaker
+    
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
         var model = cyclops.transform.Find("CyclopsMeshAnimated/Submarine_Steering_Console").gameObject;

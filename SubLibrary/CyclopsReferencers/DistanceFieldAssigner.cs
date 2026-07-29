@@ -5,6 +5,11 @@ namespace SubLibrary.CyclopsReferencers;
 
 internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
 {
+    // Code credit:
+    // SealSub's LoadDistanceFieldIntoWaterClipProxy https://github.com/32Kallies/SealSub/blob/acafaae6573625c695642439530c93c2280ebf03/SealSubMod/MonoBehaviours/Prefab/LoadDistanceFieldIntoWaterClipProxy.cs#L6
+    // Contributors:
+    // - Kallie23
+    
     [SerializeField] private WaterClipProxy waterClipProxy;
     [SerializeField] private SDFCutout sdfCutout;
     [SerializeField] private DistanceField distanceField;
@@ -64,8 +69,8 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
         }
 
         var renderer = gameObject.EnsureComponent<Renderer>();
-        //Gets the clip material from the cyclops reference earlier, assigns it the the renderer, then gets a reference to the version
-        //on this gameobject's renderer
+        // Gets the clip material from the cyclops reference earlier, assigns it to the renderer, then gets a reference to the version
+        // on this GameObject's renderer
         renderer.material = waterClipProxy.clipMaterial;
         waterClipProxy.clipMaterial = renderer.material;
         waterClipProxy.UpdateMaterial();

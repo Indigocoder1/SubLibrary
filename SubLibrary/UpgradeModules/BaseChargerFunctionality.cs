@@ -8,6 +8,11 @@ namespace SubLibrary.UpgradeModules;
 /// </summary>
 public abstract class BaseChargerFunctionality : MonoBehaviour
 {
+    // Code credit:
+    // SealSub's BaseChargerFunction https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UpgradeModules/BaseChargerFunction.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     public int modulesInstalled;
     protected PowerRelay powerRelay;
 

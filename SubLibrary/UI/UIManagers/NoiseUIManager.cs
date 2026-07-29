@@ -5,6 +5,11 @@ namespace SubLibrary.UI.UIManagers;
 
 internal class NoiseUIManager : MonoBehaviour, IUIElement
 {
+    // Code credit:
+    // SealSub's NoiseUIManager https://github.com/32Kallies/SealSub/blob/main/SealSubMod/MonoBehaviours/UI/NoiseUIManager.cs
+    // Contributors:
+    // - EldritchCarMaker
+    
     [SerializeField] private CyclopsNoiseManager noiseManager;
     [SerializeField] private Image noiseBar;
 
