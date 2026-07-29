@@ -2,6 +2,10 @@
 using SubLibrary.Utilities;
 using UnityEngine;
 
+// This adds a custom editor for the GenerateDistanceField
+// script, adding buttons and custom sliders instead of using
+// a bool to trigger field generation
+
 [CustomEditor(typeof(GenerateDistanceField))]
 public class DistanceFieldGeneratorEditor : Editor
 {
