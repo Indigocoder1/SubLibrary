@@ -198,7 +198,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
         if (cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && subControl.appliedThrottle && cyclopsMotorMode.engineOn)
         {
             engineOverheatValue = Mathf.Min(engineOverheatValue + 1, 10);
-            float fireChance = Random.Range(0f, 100f);
+            float fireChance = Random.Range(0f, 100f) / 100f;
             float chanceCheck = 0;
             if (engineOverheatValue > thresholdForEngineOverheatCritical)
             {
