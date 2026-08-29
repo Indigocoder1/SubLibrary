@@ -3,12 +3,13 @@ using SubLibrary.SaveData;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SubLibrary.CyclopsReferencers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace SubLibrary.SubFire;
 
-public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, ILateSaveDataListener
+public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, ILateSaveDataListener, ICyclopsReferencer
 {
     [SerializeField, Tooltip("Should have multiple \"SubRoom\"s as children for fire spreading")] private Transform fireSpawnsRoot;
     [SerializeField] private PrefabIdentifier identifier;
@@ -67,6 +68,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     private bool isSubDead;
     private CyclopsSmokeScreenFXController smokeController;
     private SubRoom currentSubRoom;
+    private Material smokeImposterMaterial;
 
     [HideInInspector] public int fireCount;
     [HideInInspector] public float currentSmokeVal;
@@ -83,10 +85,6 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
     private void Start()
     {
         smokeController.intensity = currentSmokeVal;
-        Color col = smokeImpostorColor;
-        col.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
-        smokeImposterRenderers.ForEach(r => r.material.SetColor(ShaderPropertyID._Color, col));
-
         currentSubRoom = engineRoom;
 
         InvokeRepeating(nameof(SmokeSimulation), 3f, 3f);
@@ -426,7 +424,7 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
 
     private void OnDestroy()
     {
-        smokeImposterRenderers.ForEach(r => Destroy(r.material));
+        Destroy(smokeImposterMaterial);
     }
 
     public void OnLateSaveDataLoaded(BaseSubDataClass saveData)
@@ -467,5 +465,18 @@ public class ModdedSubFire : MonoBehaviour, IOnTakeDamage, ISaveDataListener, IL
         }
 
         saveData.fireValues = (GetFireCount(), currentSmokeVal);
+    }
+
+    public void OnCyclopsReferenceFinished(GameObject cyclops)
+    {
+        smokeImposterMaterial =
+            new(cyclops.transform.Find("FX/x_SmokeScreenImpostor").GetComponent<Renderer>().material);
+        Color col = smokeImpostorColor;
+        col.a = smokeImpostorRemap.Evaluate(currentSmokeVal);
+        smokeImposterRenderers.ForEach(r =>
+        {
+            r.material = smokeImposterMaterial;
+            r.material.SetColor(ShaderPropertyID._Color, col);
+        });
     }
 }
