@@ -23,7 +23,8 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
     public void OnCyclopsReferenceFinished(GameObject cyclops)
     {
         waterClipProxy.clipMaterial = cyclops.transform.Find("WaterClipProxy").GetComponent<WaterClipProxy>().clipMaterial;
-        
+        if (waterClipProxy.waterSurface == null) waterClipProxy.waterSurface = WaterSurface.Get();
+            
         ApplyWaterClipDistanceField();
         ApplySDFDistanceField();
 
@@ -32,10 +33,9 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
         gameObject.layer = 28;
     }
 
-    private void Start()
+    private void Awake()
     {
         waterClipProxy.initialized = true;
-        if (waterClipProxy.waterSurface == null) waterClipProxy.waterSurface = WaterSurface.Get();
     }
 
     private void ApplyWaterClipDistanceField()
@@ -47,8 +47,8 @@ internal class DistanceFieldAssigner : PrefabModifier, ICyclopsReferencer
         borderSizeScaled.z = waterClipProxy.waterSurface.foamDistance / transform.lossyScale.z;
         if (distanceField != null)
         {
-            //Creates a bounds which the 3d texture will be in
-            //This will be sent to the water shader to clip it
+            // Creates a bounds which the 3d texture will be in
+            // This will be sent to the water shader to clip it
             waterClipProxy.distanceFieldMin = distanceField.min;
             waterClipProxy.distanceFieldMax = distanceField.max;
 
